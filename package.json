@@ -1,0 +1,26 @@
+{
+  "name": "teensy-barker",
+  "version": "0.1.0",
+  "description": "Coolector of menu files from restauraunt's websites.",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "test": "./node_modules/.bin/eslint"
+  },
+  "keywords": [],
+  "author": "Misha Kushka",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "dotenv": "^6.2.0",
+    "pg": "^7.7.1",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "debug": "^4.1.1",
+    "eslint": "^5.12.0"
+  }
+}
