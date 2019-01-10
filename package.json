@@ -7,6 +7,8 @@
     "test": "test"
   },
   "scripts": {
+    "getdocs": "./node_modules/.bin/jsdoc -c ./.jsdoc.json",
+    "readdocs": "open ./docs/index.html",
     "start": "node index.js -url http://orlypark.com.ua",
     "test": "./node_modules/.bin/eslint"
   },
@@ -21,6 +23,7 @@
   },
   "devDependencies": {
     "debug": "^4.1.1",
-    "eslint": "^5.12.0"
+    "eslint": "^5.12.0",
+    "jsdoc": "^3.5.5"
   }
 }
