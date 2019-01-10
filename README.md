@@ -1,7 +1,6 @@
 
 <p  align="left">
-<img  src="https://img.shields.io/badge/version-0.1.1-blue.svg"  /></a>
-
+<img  src="https://img.shields.io/badge/version-0.1.1-blue.svg"  />
 </p>
 
   # Teensy-Barker parser
