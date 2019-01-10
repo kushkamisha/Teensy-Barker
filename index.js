@@ -1,4 +1,9 @@
+'use strict'
+
+const debug = require('debug')('namespace')
 const { getUrl, processWebsite } = require('./lib/urls')
+
+debug('Start debugging...')
 
 /**
  * Represents a website
