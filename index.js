@@ -1,19 +1,18 @@
 'use strict'
 
-const debug = require('debug')('namespace')
-const { getUrl, processWebsite } = require('./lib/urls')
+/* eslint-disable no-console */
+const { Website, processWebsite } = require('./lib/urls')
+const { getUrl } = require('./lib/utils')
 
-debug('Start debugging...')
+const url = getUrl()
+const homeUrl = url
 
-/**
- * Represents a website
- * @constructor
- */
-function Website () {
-    const url = getUrl()
-    this.homeUrl = url.substr(-1) === '/' ? url.slice(0, -1) : url
-    this.toProcess = new Set()
-}
+const website = new Website(url, homeUrl)
 
-const website = new Website()
 processWebsite(website)
+    .then(() => {
+        console.log(website)
+    })
+    .catch(err => {
+        throw err
+    })

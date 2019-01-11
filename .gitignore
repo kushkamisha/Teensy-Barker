@@ -1,8 +1,9 @@
 # Mac files
 .DS_Store
 
-# Dependency direcroty
+# Project data
 node_modules
+log
 
 # Environment variables
 .env
