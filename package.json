@@ -12,7 +12,7 @@
     "start": "node index.js -url http://orlypark.com.ua",
     "test": "./node_modules/mocha/bin/mocha"
   },
-  "keywords": [],
+  "keywords": ["parser", "nodejs"],
   "author": "Misha Kushka",
   "license": "ISC",
   "dependencies": {
