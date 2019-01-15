@@ -2,7 +2,8 @@
 'use strict'
 
 const expect = require('chai').expect
-const { createWebpage, processWebpage } = require('../lib/urls')
+const { processWebpage } = require('../lib/urls')
+const { createWebpage } = require('../lib/utils')
 
 describe('processwebpage', () => {
 
@@ -16,7 +17,7 @@ describe('processwebpage', () => {
 
     it('should process http://orlypark.com.ua/ correctly', async () => {
         const _webpage = {
-            currentUrl: 'http://orlypark.com.ua/',
+            url: 'http://orlypark.com.ua/',
             homeUrl: 'http://orlypark.com.ua/',
             toProcess: new Set([
                 'http://orlypark.com.ua/menu/',

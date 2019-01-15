@@ -87,7 +87,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_urls.js.html">lib/urls.js</a>, <a href="lib_urls.js.html#line1">line 1</a>
+        <a href="urls.js.html">urls.js</a>, <a href="urls.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -135,6 +135,366 @@
 
     
         <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~createChildWebpages"><span class="type-signature">(inner) </span>createChildWebpages<span class="signature">(webpage)</span><span class="type-signature"> &rarr; {Array.&lt;Object>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Cheate child webpage objects from urls, which were detected as menu urls.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>webpage</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Webpage object</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="urls.js.html">urls.js</a>, <a href="urls.js.html#line45">line 45</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - Array of child webpage objects
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;Object></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~createWebpage"><span class="type-signature">(inner) </span>createWebpage<span class="signature">(url, homeUrl, processed)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Create webpage object
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">URL of the current webpage</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>homeUrl</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">URL of the website's homepage</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>processed</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Set</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">List of processed URls</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="urls.js.html">urls.js</a>, <a href="urls.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Created object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 
         
             
@@ -225,7 +585,7 @@
 
             
 
-            <td class="description last">Website's homepage url</td>
+            <td class="description last">webpage's homepage url</td>
         </tr>
 
     
@@ -266,7 +626,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_urls.js.html">lib/urls.js</a>, <a href="lib_urls.js.html#line20">line 20</a>
+        <a href="urls.js.html">urls.js</a>, <a href="urls.js.html#line66">line 66</a>
     </li></ul></dd>
     
 
@@ -322,6 +682,163 @@
     
 
     
+    <h4 class="name" id="~getUrlsFromChunk"><span class="type-signature">(inner) </span>getUrlsFromChunk<span class="signature">(chunk)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Find all <a> tags from the webpage chunk
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>chunk</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Chunk of the webpage</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="urls.js.html">urls.js</a>, <a href="urls.js.html#line19">line 19</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    All <a> tags from the chunk
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="~processUrls"><span class="type-signature">(inner) </span>processUrls<span class="signature">(urls, homeUrl, toProcess)</span><span class="type-signature"></span></h4>
     
 
@@ -331,7 +848,7 @@
 
 <div class="description">
     Process url's cheerio objects and add urls to the menu webpages or files to
-the toProcess set in the Website object
+the toProcess set in the webpage object
 </div>
 
 
@@ -406,7 +923,7 @@ the toProcess set in the Website object
 
             
 
-            <td class="description last">Website's homepage url</td>
+            <td class="description last">webpage's homepage url</td>
         </tr>
 
     
@@ -470,7 +987,7 @@ the toProcess set in the Website object
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_urls.js.html">lib/urls.js</a>, <a href="lib_urls.js.html#line40">line 40</a>
+        <a href="urls.js.html">urls.js</a>, <a href="urls.js.html#line86">line 86</a>
     </li></ul></dd>
     
 
@@ -504,7 +1021,7 @@ the toProcess set in the Website object
     
 
     
-    <h4 class="name" id="~processWebsite"><span class="type-signature">(inner) </span>processWebsite<span class="signature">(website)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~processWebpage"><span class="type-signature">(inner) </span>processWebpage<span class="signature">(webpage)</span><span class="type-signature"></span></h4>
     
 
     
@@ -512,7 +1029,7 @@ the toProcess set in the Website object
 
 
 <div class="description">
-    Find all urls to menu file on the website and download them
+    Find all urls to menu file on the webpage and download them
 </div>
 
 
@@ -548,7 +1065,7 @@ the toProcess set in the Website object
 
         <tr>
             
-                <td class="name"><code>website</code></td>
+                <td class="name"><code>webpage</code></td>
             
 
             <td class="type">
@@ -565,7 +1082,7 @@ the toProcess set in the Website object
             
 
             <td class="description last">Object, which contains all necessary info about 
-current website</td>
+current webpage</td>
         </tr>
 
     
@@ -606,7 +1123,7 @@ current website</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_urls.js.html">lib/urls.js</a>, <a href="lib_urls.js.html#line53">line 53</a>
+        <a href="urls.js.html">urls.js</a>, <a href="urls.js.html#line102">line 102</a>
     </li></ul></dd>
     
 
@@ -650,13 +1167,13 @@ current website</td>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-lib_urls.html">lib/urls</a></li><li><a href="module-lib_utils.html">lib/utils</a></li></ul><h3>Classes</h3><ul><li><a href="Website.html">Website</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-lib_urls.html">lib/urls</a></li><li><a href="module-lib_utils.html">lib/utils</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Jan 10 2019 12:42:25 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jan 15 2019 09:41:27 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -5,11 +5,14 @@
   "main": "app.js",
   "scripts": {
     "getdocs": "./node_modules/.bin/jsdoc -c ./.jsdoc.json",
-    "readdocs": "open ./docs/index.html",
+    "showdocs": "open ./docs/index.html",
     "start": "node index.js -url http://orlypark.com.ua",
     "test": "./node_modules/mocha/bin/mocha"
   },
-  "keywords": ["parser", "nodejs"],
+  "keywords": [
+    "parser",
+    "nodejs"
+  ],
   "author": "Misha Kushka",
   "license": "ISC",
   "dependencies": {
@@ -19,6 +22,7 @@
     "mocha": "^5.2.0",
     "pg": "^7.7.1",
     "request": "^2.88.0",
+    "site-pdf": "0.0.7",
     "winston": "^3.1.0",
     "winston-daily-rotate-file": "^3.5.2"
   },
