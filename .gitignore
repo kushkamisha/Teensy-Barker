@@ -2,8 +2,10 @@
 .DS_Store
 
 # Project data
+data
 node_modules
 log
+urls.txt
 
 # Environment variables
 .env
