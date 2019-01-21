@@ -5,7 +5,7 @@ const expect = require('chai').expect
 const { processWebpage } = require('../lib/urls')
 const { createWebpage } = require('../lib/utils')
 
-describe('processwebpage', () => {
+describe.skip('processwebpage', () => {
 
     let webpage = {}
 

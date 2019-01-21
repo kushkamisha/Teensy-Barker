@@ -6,7 +6,7 @@ const should = require('chai').should()
 
 const utils = require('../lib/utils')
 
-describe('isEmptyArray', () => {
+describe.skip('isEmptyArray', () => {
 
     it('should act normal with non array param', () => {
         const obj = { name: 'John' }
@@ -30,9 +30,55 @@ describe('isEmptyArray', () => {
 
 })
 
-// getUrl
+describe('getUrl', () => {
 
-describe('isMenuUrl', () => {
+    let args = []
+
+    before(() => {
+        args = [...process.argv] // deep copy of array
+    })
+
+    afterEach(() => {
+        process.argv = [...args]
+    })
+
+    it('should use default url when it\'s not provided', () => {
+        utils.getUrl().should.equal('http://santori.com.ua/')
+    })
+
+    it('should use provided url', () => {
+        process.argv.push('-url')
+        process.argv.push('http://orlypark.com.ua/')
+        utils.getUrl().should.equal('http://orlypark.com.ua/')
+    })
+
+    it('should append slash to the end of url when nesessary', () => {
+        process.argv.push('-url')
+        process.argv.push('http://orlypark.com.ua')
+        utils.getUrl().should.equal('http://orlypark.com.ua/')
+    })
+
+    it('should', () => {
+        process.argv.push('-url')
+        process.argv.push('olala')
+        utils.getUrl().should.equal('http://orlypark.com.ua')
+    })
+
+})
+
+// isValidUrl
+/**
+ * https://www.google.com
+http://www.google.com
+www.google.com
+h-ello.y.ou
+htt://www.google.com
+://www.google.com
+ */
+
+// prettifyUrl
+
+describe.skip('isMenuUrl', () => {
 
     it('should return false for empty url', () => {
         const url = ''
@@ -53,7 +99,7 @@ describe('isMenuUrl', () => {
     })
 })
 
-describe('formatUrl', () => {
+describe.skip('formatUrl', () => {
 
     it('should add slash to the url without it', () => {
         const _url = 'http://orypark.com.ua'

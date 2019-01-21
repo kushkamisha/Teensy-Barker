@@ -1,13 +1,14 @@
 {
   "name": "teensy-barker",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Coolector of menu files from restauraunt's websites.",
   "main": "app.js",
   "scripts": {
     "getdocs": "./node_modules/.bin/jsdoc -c ./.jsdoc.json",
     "showdocs": "open ./docs/index.html",
     "start": "node index.js -url http://orlypark.com.ua",
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "./node_modules/mocha/bin/mocha",
+    "style": "./node_modules/eslint/bin/eslint.js"
   },
   "keywords": [
     "parser",
