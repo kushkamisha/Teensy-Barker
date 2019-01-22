@@ -5,7 +5,7 @@ const logger = require('./logger')
 const { processWebpage } = require('./lib/urls')
 const { createWebpage, getUrl } = require('./lib/utils')
 
-console.time('program time')
+console.time('program exec time')
 const url = getUrl()
 const homeUrl = url
 
@@ -15,7 +15,7 @@ const webpage = createWebpage(url, homeUrl, processed)
 processWebpage(webpage)
     .then(() => {
         logger.info('Done!')
-        console.timeEnd('program time')
+        console.timeEnd('program exec time')
         process.exit(0)
     }, err => {
         throw err

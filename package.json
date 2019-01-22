@@ -1,6 +1,6 @@
 {
   "name": "teensy-barker",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Coolector of menu files from restauraunt's websites.",
   "main": "app.js",
   "scripts": {
@@ -22,8 +22,8 @@
     "dotenv": "^6.2.0",
     "mocha": "^5.2.0",
     "pg": "^7.7.1",
+    "phantom": "^6.0.3",
     "request": "^2.88.0",
-    "site-pdf": "0.0.7",
     "winston": "^3.1.0",
     "winston-daily-rotate-file": "^3.5.2"
   },

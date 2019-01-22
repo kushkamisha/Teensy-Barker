@@ -43,25 +43,13 @@ describe('getUrl', () => {
     })
 
     it('should use default url when it\'s not provided', () => {
-        utils.getUrl().should.equal('http://santori.com.ua/')
+        utils.getUrl().should.equal('http://www.santori.com.ua/')
     })
 
     it('should use provided url', () => {
         process.argv.push('-url')
-        process.argv.push('http://orlypark.com.ua/')
-        utils.getUrl().should.equal('http://orlypark.com.ua/')
-    })
-
-    it('should append slash to the end of url when nesessary', () => {
-        process.argv.push('-url')
-        process.argv.push('http://orlypark.com.ua')
-        utils.getUrl().should.equal('http://orlypark.com.ua/')
-    })
-
-    it('should', () => {
-        process.argv.push('-url')
-        process.argv.push('olala')
-        utils.getUrl().should.equal('http://orlypark.com.ua')
+        process.argv.push('http://www.orlypark.com.ua/')
+        utils.getUrl().should.equal('http://www.orlypark.com.ua/')
     })
 
 })
