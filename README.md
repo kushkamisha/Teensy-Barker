@@ -1,5 +1,5 @@
-![Project version](https://img.shields.io/badge/version-0.4.2-blue.svg)
-![npm version](https://img.shields.io/badge/npm-v6.5.0-brightgreen.svg)
+![Project version](https://img.shields.io/badge/version-0.4.3-blue.svg)
+![npm version](https://img.shields.io/badge/npm-v6.6.0-brightgreen.svg)
 ![Build status](https://travis-ci.com/kushkamisha/Teensy-Barker.svg?token=eU2xeax7Tp5xNpzo1KrV&branch=master)
 ![Build status](https://ci.appveyor.com/api/projects/status/jil2vprufxxve9jn?svg=true)
 
@@ -10,15 +10,15 @@ Collector of menu files from restauraunt's websites
 
 ## Start
 
-`$ npm start`
+```$ npm start```
 
 ## Documentation
 
 To generate up-to-date documentation run
-`$ npm run getdocs`
+```$ npm run getdocs```
 
 And then open it with
-`$ npm run readdocs`
+```$ npm run showdocs```
 
 ## Test
-`$ npm test`
+```$ npm test```

@@ -30,7 +30,7 @@ describe.skip('isEmptyArray', () => {
 
 })
 
-describe('getUrl', () => {
+describe.skip('getUrl', () => {
 
     let args = []
 
