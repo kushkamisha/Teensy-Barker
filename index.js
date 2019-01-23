@@ -2,11 +2,11 @@
 'use strict'
 
 const logger = require('./logger')
-const { processWebpage } = require('./lib/urls')
-const { createWebpage, getUrl } = require('./lib/utils')
+const { createWebpage, processWebpage } = require('./lib/webpage')
+const urls = require('./lib/urls')
 
 console.time('program exec time')
-const url = getUrl()
+const url = urls.getUrlFromCLI()
 const homeUrl = url
 
 const processed = new Set()
@@ -14,9 +14,8 @@ const webpage = createWebpage(url, homeUrl, processed)
 
 processWebpage(webpage)
     .then(() => {
-        logger.info('Done!')
+        logger.info('\n\nDone!')
         console.timeEnd('program exec time')
-        process.exit(0)
     }, err => {
         throw err
     })
