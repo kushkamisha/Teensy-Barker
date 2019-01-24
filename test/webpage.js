@@ -6,11 +6,65 @@ const chai = require('chai')
 const { rmDir } = require('../lib/utils')
 // const chaiAsPromised = require('chai-as-promised')
 const expect = chai.expect
-const { createWebpage, processWebpage } = require('../lib/webpage')
+const wpg = require('../lib/webpage')
 
 // chai.use(chaiAsPromised)
 
-describe('processWebpage', () => {
+describe('createWebpage', () => {
+    
+    it('should create a webpage object', () => {
+        const _webpage = {
+            url: 'http://www.orlypark.com.ua/menu',
+            homeUrl: 'http://www.orlypark.com.ua/',
+            toProcess: new Set(),
+            processed: new Set(['one', 'two', 'three'])
+        }
+
+        const webpage = wpg.createWebpage(
+            'http://www.orlypark.com.ua/menu',
+            'http://www.orlypark.com.ua/',
+            new Set(['one', 'two', 'three'])
+        )
+
+        expect(webpage).to.eql(_webpage)
+    })
+
+})
+
+describe('createChildWebpages', () => {
+
+    it('should create child webpages', () => {
+        const webpage = {
+            url: 'http://www.orlypark.com.ua/menu',
+            homeUrl: 'http://www.orlypark.com.ua/',
+            toProcess: new Set(['one', 'two']),
+            processed: new Set(['three', 'four', 'five'])
+        }
+
+        const _pages = []
+        
+        _pages.push({
+            url: 'one',
+            homeUrl: 'http://www.orlypark.com.ua/',
+            toProcess: new Set(),
+            processed: new Set(['one', 'two', 'three', 'four', 'five'])
+        })
+        _pages.push({
+            url: 'two',
+            homeUrl: 'http://www.orlypark.com.ua/',
+            toProcess: new Set(),
+            processed: new Set(['one', 'two', 'three', 'four', 'five'])
+        })
+
+        const pages = wpg.createChildWebpages(webpage)
+
+        expect(pages).to.eql(_pages)
+
+    })
+
+})
+
+describe.skip('processWebpage', () => {
 
     const dataFolder = 'data_test'
 
@@ -34,7 +88,7 @@ describe('processWebpage', () => {
             'sushi.pdf'
         ]
 
-        processWebpage(webpage, dataFolder)
+        wpg.processWebpage(webpage, dataFolder)
             .then(() => {
                 fs.readdir(__dirname + '/../' + dataFolder, (err, files) => {
                     if (err) throw err
