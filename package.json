@@ -1,8 +1,8 @@
 {
   "name": "teensy-barker",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Coolector of menu files from restauraunt's websites.",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "getdocs": "./node_modules/.bin/jsdoc -c ./.jsdoc.json",
     "showdocs": "open ./docs/index.html",

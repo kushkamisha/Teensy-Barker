@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 'use strict'
 
-const logger = require('./logger')
+// const logger = require('./logger')
 const { createWebpage, processWebpage } = require('./lib/webpage')
 const urls = require('./lib/urls')
 
@@ -14,7 +14,6 @@ const webpage = createWebpage(url, homeUrl, processed)
 
 processWebpage(webpage)
     .then(() => {
-        logger.info('\n\nDone!')
         console.timeEnd('program exec time')
     }, err => {
         throw err
