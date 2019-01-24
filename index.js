@@ -11,8 +11,9 @@ const homeUrl = url
 
 const processed = new Set()
 const webpage = createWebpage(url, homeUrl, processed)
+const dataFolder = 'data'
 
-processWebpage(webpage)
+processWebpage(webpage, dataFolder)
     .then(() => {
         console.timeEnd('program exec time')
     }, err => {

@@ -3,6 +3,7 @@
 
 # Project data
 data
+data_test
 node_modules
 log
 urls.txt

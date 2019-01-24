@@ -1,6 +1,6 @@
 {
   "name": "teensy-barker",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "Coolector of menu files from restauraunt's websites.",
   "main": "index.js",
   "scripts": {
@@ -28,6 +28,7 @@
     "winston-daily-rotate-file": "^3.5.2"
   },
   "devDependencies": {
+    "chai-as-promised": "^7.1.1",
     "eslint": "^5.12.0",
     "jsdoc": "^3.5.5"
   }
