@@ -3,7 +3,7 @@
 
 const fs = require('fs')
 const chai = require('chai')
-const { rmDir } = require('../lib/utils')
+const { getNameFromUrl, createFolder, rmDir } = require('../lib/utils')
 // const chaiAsPromised = require('chai-as-promised')
 const expect = chai.expect
 const wpg = require('../lib/webpage')
@@ -68,7 +68,11 @@ describe.skip('processWebpage', () => {
 
     const dataFolder = 'data_test'
 
-    afterEach(() => {
+    before(() => {
+        createFolder(dataFolder)
+    })
+
+    after(() => {
         rmDir(__dirname + '/../' + dataFolder)
     })
 
@@ -76,8 +80,9 @@ describe.skip('processWebpage', () => {
         this.timeout(15000)
 
         const url = 'http://www.orlypark.com.ua/'
-        const homeUrl = 'http://www.orlypark.com.ua/'
-        const webpage = createWebpage(url, homeUrl, new Set())
+        const homeUrl = url
+        const webpage = wpg.createWebpage(url, homeUrl, new Set())
+        const siteFolder = dataFolder + '/' + getNameFromUrl(homeUrl)
 
         const dirContents = [
             'bar.pdf',
@@ -88,9 +93,9 @@ describe.skip('processWebpage', () => {
             'sushi.pdf'
         ]
 
-        wpg.processWebpage(webpage, dataFolder)
+        wpg.processWebpage(webpage, siteFolder)
             .then(() => {
-                fs.readdir(__dirname + '/../' + dataFolder, (err, files) => {
+                fs.readdir(__dirname + '/../' + siteFolder, (err, files) => {
                     if (err) throw err
                     expect(files).to.eql(dirContents)
                 })
@@ -99,4 +104,34 @@ describe.skip('processWebpage', () => {
             })
             .finally(done)
     })
+
+    it('should process http://santori.com.ua/ correctly', function (done) {
+        this.timeout(15000)
+
+        const url = 'http://santori.com.ua/'
+        const homeUrl = url
+        const webpage = wpg.createWebpage(url, homeUrl, new Set())
+        const siteFolder = dataFolder + '/' + getNameFromUrl(homeUrl)
+
+        const dirContents = [
+            'Bar.pdf',
+            'Coctails.pdf',
+            'Sets%20A3_04.jpg',
+            'VineBar.pdf',
+            'menyu-bara.pdf',
+            'menyu.pdf'
+        ]
+
+        wpg.processWebpage(webpage, siteFolder)
+            .then(() => {
+                fs.readdir(__dirname + '/../' + siteFolder, (err, files) => {
+                    if (err) throw err
+                    expect(files).to.eql(dirContents)
+                })
+            }, err => {
+                throw err
+            })
+            .finally(done)
+    })
+
 })
