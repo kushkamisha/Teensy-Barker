@@ -34,7 +34,9 @@ const dailyRotateFileTransportErrors = new transports.DailyRotateFile({
 
 const logger = createLogger({
     // change level if in dev environment versus production
-    level: env === 'development' ? 'debug' : 'info',
+    // To the file
+    // Note: only level or greater will log to the console
+    level: 'debug',
     format: format.combine(
         format.timestamp({
             format: 'HH:mm:ss'
@@ -43,9 +45,10 @@ const logger = createLogger({
             info => `${info.timestamp} ${info.level}: ${info.message}`
         )
     ),
+    // On the screen
     transports: [
         new transports.Console({
-            level: 'info',
+            level: env === 'development' ? 'debug' : 'info',
             format: format.combine(
                 format.colorize(),
                 format.printf(

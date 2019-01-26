@@ -1,13 +1,13 @@
 {
   "name": "teensy-barker",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "description": "Coolector of menu files from restauraunt's websites.",
   "main": "index.js",
   "scripts": {
     "getdocs": "./node_modules/.bin/jsdoc -c ./.jsdoc.json",
     "showdocs": "open ./docs/index.html",
     "start": "node index.js -url http://orlypark.com.ua",
-    "test": "./node_modules/mocha/bin/mocha",
+    "test": "NODE_ENV=test ./node_modules/mocha/bin/mocha",
     "style": "./node_modules/eslint/bin/eslint.js"
   },
   "keywords": [
@@ -17,10 +17,8 @@
   "author": "Misha Kushka",
   "license": "ISC",
   "dependencies": {
-    "chai": "^4.2.0",
     "cheerio": "^1.0.0-rc.2",
     "dotenv": "^6.2.0",
-    "mocha": "^5.2.0",
     "pg": "^7.7.1",
     "phantom": "^6.0.3",
     "request": "^2.88.0",
@@ -28,8 +26,9 @@
     "winston-daily-rotate-file": "^3.5.2"
   },
   "devDependencies": {
-    "chai-as-promised": "^7.1.1",
+    "chai": "^4.2.0",
     "eslint": "^5.12.0",
-    "jsdoc": "^3.5.5"
+    "jsdoc": "^3.5.5",
+    "mocha": "^5.2.0"
   }
 }

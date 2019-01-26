@@ -3,16 +3,13 @@
 
 const fs = require('fs')
 const chai = require('chai')
-const { getNameFromUrl, createFolder, rmDir } = require('../lib/utils')
-// const chaiAsPromised = require('chai-as-promised')
+const { getNameFromUrl, mkdir, rmdir } = require('../lib/utils')
 const expect = chai.expect
 const { 
     createWebpage,
     createChildWebpages,
     processWebpage
 } = require('../lib/webpage')
-
-// chai.use(chaiAsPromised)
 
 describe('createWebpage', () => {
     
@@ -72,22 +69,34 @@ describe('processWebpage', () => {
 
     const dataFolder = 'data_test'
 
-    before(() => {
-        createFolder(dataFolder)
+    before(async () => {
+        await mkdir(dataFolder)
     })
 
     after(() => {
-        rmDir(__dirname + '/../' + dataFolder)
+        rmdir(__dirname + '/../' + dataFolder)
     })
 
-    it('should process http://www.orlypark.com.ua/ correctly', function (done) {
-        this.timeout(15000)
+    const process = (url, dirContents, done) => {
 
-        const url = 'http://www.orlypark.com.ua/'
         const homeUrl = url
         const webpage = createWebpage(url, homeUrl, new Set())
         const siteFolder = dataFolder + '/' + getNameFromUrl(homeUrl)
 
+        processWebpage(webpage, siteFolder)
+            .then(() => {
+                fs.readdir(__dirname + '/../' + siteFolder, (err, files) => {
+                    if (err) throw err
+                    expect(files).to.eql(dirContents)
+                })
+            }, err => {
+                throw err
+            })
+            .finally(done)
+    }
+
+    it('should process http://www.orlypark.com.ua/ correctly', function (done) {
+        this.timeout(15000)
         const dirContents = [
             'bar.pdf',
             'deserti.pdf',
@@ -96,27 +105,11 @@ describe('processWebpage', () => {
             'menu.pdf',
             'sushi.pdf'
         ]
-
-        processWebpage(webpage, siteFolder)
-            .then(() => {
-                fs.readdir(__dirname + '/../' + siteFolder, (err, files) => {
-                    if (err) throw err
-                    expect(files).to.eql(dirContents)
-                })
-            }, err => {
-                throw err
-            })
-            .finally(done)
+        process('http://www.orlypark.com.ua/', dirContents, done)
     })
 
     it('should process http://santori.com.ua/ correctly', function (done) {
         this.timeout(15000)
-
-        const url = 'http://santori.com.ua/'
-        const homeUrl = url
-        const webpage = createWebpage(url, homeUrl, new Set())
-        const siteFolder = dataFolder + '/' + getNameFromUrl(homeUrl)
-
         const dirContents = [
             'Bar.pdf',
             'Coctails.pdf',
@@ -125,17 +118,7 @@ describe('processWebpage', () => {
             'menyu-bara.pdf',
             'menyu.pdf'
         ]
-
-        processWebpage(webpage, siteFolder)
-            .then(() => {
-                fs.readdir(__dirname + '/../' + siteFolder, (err, files) => {
-                    if (err) throw err
-                    expect(files).to.eql(dirContents)
-                })
-            }, err => {
-                throw err
-            })
-            .finally(done)
+        process('http://santori.com.ua/', dirContents, done)
     })
 
 })
