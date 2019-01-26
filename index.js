@@ -4,6 +4,7 @@
 const { createWebpage, processWebpage } = require('./lib/webpage')
 const { getUrlFromCLI } = require('./lib/urls')
 const { getNameFromUrl, createFolder } = require('./lib/utils')
+// const logger = require('./logger')
 
 console.time('program exec time')
 const url = getUrlFromCLI()

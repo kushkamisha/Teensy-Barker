@@ -6,7 +6,11 @@ const chai = require('chai')
 const { getNameFromUrl, createFolder, rmDir } = require('../lib/utils')
 // const chaiAsPromised = require('chai-as-promised')
 const expect = chai.expect
-const wpg = require('../lib/webpage')
+const { 
+    createWebpage,
+    createChildWebpages,
+    processWebpage
+} = require('../lib/webpage')
 
 // chai.use(chaiAsPromised)
 
@@ -20,7 +24,7 @@ describe('createWebpage', () => {
             processed: new Set(['one', 'two', 'three'])
         }
 
-        const webpage = wpg.createWebpage(
+        const webpage = createWebpage(
             'http://www.orlypark.com.ua/menu',
             'http://www.orlypark.com.ua/',
             new Set(['one', 'two', 'three'])
@@ -56,7 +60,7 @@ describe('createChildWebpages', () => {
             processed: new Set(['one', 'two', 'three', 'four', 'five'])
         })
 
-        const pages = wpg.createChildWebpages(webpage)
+        const pages = createChildWebpages(webpage)
 
         expect(pages).to.eql(_pages)
 
@@ -64,7 +68,7 @@ describe('createChildWebpages', () => {
 
 })
 
-describe.skip('processWebpage', () => {
+describe('processWebpage', () => {
 
     const dataFolder = 'data_test'
 
@@ -81,7 +85,7 @@ describe.skip('processWebpage', () => {
 
         const url = 'http://www.orlypark.com.ua/'
         const homeUrl = url
-        const webpage = wpg.createWebpage(url, homeUrl, new Set())
+        const webpage = createWebpage(url, homeUrl, new Set())
         const siteFolder = dataFolder + '/' + getNameFromUrl(homeUrl)
 
         const dirContents = [
@@ -93,7 +97,7 @@ describe.skip('processWebpage', () => {
             'sushi.pdf'
         ]
 
-        wpg.processWebpage(webpage, siteFolder)
+        processWebpage(webpage, siteFolder)
             .then(() => {
                 fs.readdir(__dirname + '/../' + siteFolder, (err, files) => {
                     if (err) throw err
@@ -110,7 +114,7 @@ describe.skip('processWebpage', () => {
 
         const url = 'http://santori.com.ua/'
         const homeUrl = url
-        const webpage = wpg.createWebpage(url, homeUrl, new Set())
+        const webpage = createWebpage(url, homeUrl, new Set())
         const siteFolder = dataFolder + '/' + getNameFromUrl(homeUrl)
 
         const dirContents = [
@@ -122,7 +126,7 @@ describe.skip('processWebpage', () => {
             'menyu.pdf'
         ]
 
-        wpg.processWebpage(webpage, siteFolder)
+        processWebpage(webpage, siteFolder)
             .then(() => {
                 fs.readdir(__dirname + '/../' + siteFolder, (err, files) => {
                     if (err) throw err
