@@ -33,16 +33,53 @@
 
 'use strict'
 
-const request = require('request')
 const cheerio = require('cheerio')
 
-// const logger = require('../logger')
-const { 
-    isMenuUrl,
-    saveFileFromUrl,
-    createChildWebpages,
-    createPdfFromUrl,
-} = require('./utils')
+const { defaultUrl } = require('../config')
+const utils = require('./utils')
+
+/**
+ * Check is provided url is in valid format
+ * @param {string} url - Input url
+ * @returns {boolean} Is url valid or not
+ */
+const isValidUrl = url => {
+    const rgx = new RegExp([
+        // eslint-disable-next-line no-useless-escape
+        '^(https?:\/\/(www\.)?)?',
+        // eslint-disable-next-line no-useless-escape
+        '[a-z0-9]+([\-\.]{1}[a-z0-9]+)*',
+        // eslint-disable-next-line no-useless-escape
+        '\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$'].join(''), 'g')
+    return !!url.match(rgx)
+}
+
+/**
+ * Add 'http', 'www' and slash to the beginning and slash to the end of the url
+ * if nesessary
+ * @param {string} url - Input url
+ * @returns {string} Prettifyed url
+ */
+const prettifyUrl = url => {
+    const withHttp = /^(https?:\/\/)/g
+    const withWwwAndHttp = /^(https?:\/\/(www\.))/g
+
+    // add 'http'
+    if (!url.match(withHttp))
+        url = 'http://' + url
+
+    // add 'www'
+    if (!url.match(withWwwAndHttp)) {
+        const pos = url.match(withHttp)[0].length // position to insert
+        url = url.slice(0, pos) + 'www.' + url.slice(pos)
+    }
+
+    // add slash to the end
+    if (url.substr(-1) !== '/')
+        url = url.concat('/')
+
+    return url
+}
 
 /**
  * Find all &lt;a> tags from the webpage chunk
@@ -54,6 +91,35 @@ const getUrlsFromChunk = chunk => {
     const $ = cheerio.load(html)
 
     return $('a')
+}
+
+/**
+ * Get url given by user as CLI param or using the default one
+ * @returns {string} Url to be used in the program
+ */
+const getUrlFromCLI = () => {
+    const args = process.argv.slice(2)
+    const command = utils.isEmptyArray(args) ? '' : args.shift()
+    const params = utils.isEmptyArray(args) ? [defaultUrl] : args
+    let url = ''
+
+    const cmds = {
+        URL: '-url'
+    }
+
+    switch (command) {
+        case cmds.URL:
+            url = prettifyUrl(params[0])
+            break
+        default:
+            url = defaultUrl
+    }
+
+    if (!isValidUrl(url)) return defaultUrl
+
+    url = prettifyUrl(url)
+
+    return url
 }
 
 /**
@@ -77,15 +143,36 @@ const getHref = (url, homepage) => {
 }
 
 /**
+ * Check is given url is to the menu file or webpage
+ * @param {string} url - Url to be checked
+ * @param {string} homeUrl - Website's homepage url
+ * @returns {boolean} True if url is on the menu file or webpage
+ */
+const isMenuUrl = (url, homeUrl) => {
+    if (!url) return false
+    if (!url.includes(homeUrl)) return false
+
+    const MENU = ['menyu', 'menu', 'kitchen']
+
+    for (const item of MENU) {
+        if (url.includes(item))
+            return true
+    }
+
+    return false
+}
+
+/**
  * Process url's cheerio objects and add urls to the menu webpages or files to
  * the toProcess set in the webpage object
- * @param {Array.&lt;Object>} urls - Array of cheerio objects with urls
+ * @param {Array.&lt;Object>} links - Array of cheerio objects with urls
  * @param {string} homeUrl - webpage's homepage url
  * @param {Set.&lt;string>} toProcess - Set of urls to be processed
+ * @param {Set.&lt;string>} processed - Set of urls which have been already processed
  */
-const processUrls = (urls, { homeUrl, toProcess, processed }) => {
-    for (const i in urls) {
-        const href = getHref(urls[i], homeUrl)
+const processUrls = (links, { homeUrl, toProcess, processed }) => {
+    for (const i in links) {
+        const href = getHref(links[i], homeUrl)
         if (!href) continue
 
         if (isMenuUrl(href, homeUrl) &amp;&amp; !processed.has(href))
@@ -95,45 +182,13 @@ const processUrls = (urls, { homeUrl, toProcess, processed }) => {
     }
 }
 
-/**
- * Find all urls to menu file on the webpage and download them
- * @param {Object} webpage - Object, which contains all necessary info about 
- * current webpage
- */
-const processWebpage = webpage => new Promise((response, reject) => {
-
-    const dataFolder = 'data'
-
-    request(webpage.url)
-        .on('error', err => {
-            reject(err)
-        })
-        .on('response', res => {
-            if (res.statusCode !== 200)
-                throw new Error('Invalid status code')
-
-            // Save current webpage as pdf or download it if it's a file
-            if (!saveFileFromUrl(res, dataFolder))
-                if (webpage.url !== webpage.homeUrl)
-                    createPdfFromUrl(webpage, dataFolder)
-        })
-        .on('data', chunk => {
-            // Process chunk
-            const urls = getUrlsFromChunk(chunk)
-            processUrls(urls, webpage)
-        })
-        .on('complete', () => {
-            // Create child webpages if needed
-            if (!webpage.toProcess) response()
-            const pages = createChildWebpages(webpage)
-
-            Promise.all(pages.map(processWebpage))
-                .then(() => response())
-        })
-})
-
 module.exports = {
-    processWebpage,
+    getUrlFromCLI,
+    isValidUrl,
+    prettifyUrl,
+    getUrlsFromChunk,
+    isMenuUrl,
+    processUrls,
 }
 </code></pre>
         </article>
@@ -145,13 +200,13 @@ module.exports = {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-lib_urls.html">lib/urls</a></li><li><a href="module-lib_utils.html">lib/utils</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-lib_urls.html">lib/urls</a></li><li><a href="module-lib_utils.html">lib/utils</a></li><li><a href="module-lib_webpage.html">lib/webpage</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jan 22 2019 12:13:14 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Jan 27 2019 09:22:37 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

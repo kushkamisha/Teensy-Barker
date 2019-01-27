@@ -3,10 +3,12 @@
 'use strict'
 
 const fs = require('fs')
+const path = require('path')
+const request = require('request')
 const chai = require('chai')
+
 const should = chai.should()
 const { expect, assert } = chai
-
 const utils = require('../lib/utils')
 
 describe('isEmptyArray', () => {
@@ -152,7 +154,7 @@ describe('getNameFromUrl', () => {
 
 })
 
-describe.only('getPdfNameFromUrl', () => {
+describe('getPdfNameFromUrl', () => {
 
     it('should generate correct name from \'https\'', () => {
         const folder = '/tmp'
@@ -180,6 +182,115 @@ describe.only('getPdfNameFromUrl', () => {
 
 })
 
-// getFileTypeFromUrls
-// saveFileFromUrl
+describe('getFileTypeFromUrls', () => {
+
+    it('should return \'.pdf\' for type \'application/pdf\'', () => {
+        utils.getFileTypeFromUrl('application/pdf').should.equal('.pdf')
+    })
+    it('should return \'.jpg\' for type \'image/jpeg\'', () => {
+        utils.getFileTypeFromUrl('image/jpeg').should.equal('.jpg')
+    })
+    it('should return \'.jpg\' for type \'image/x-citrix-jpeg\'', () => {
+        utils.getFileTypeFromUrl('image/x-citrix-jpeg').should.equal('.jpg')
+    })
+
+    it('should return \'.png\' for type \'image/png\'', () => {
+        utils.getFileTypeFromUrl('image/png').should.equal('.png')
+    })
+    it('should return \'.png\' for type \'image/x-citrix-png\'', () => {
+        utils.getFileTypeFromUrl('image/x-citrix-png').should.equal('.png')
+    })
+    it('should return \'.png\' for type \'image/x-png\'', () => {
+        utils.getFileTypeFromUrl('image/x-png').should.equal('.png')
+    })
+
+    it('should return \'.bmp\' for type \'image/bmp\'', () => {
+        utils.getFileTypeFromUrl('image/bmp').should.equal('.bmp')
+    })
+    it('should return \'.tiff\' for type \'image/tiff\'', () => {
+        utils.getFileTypeFromUrl('image/tiff').should.equal('.tiff')
+    })
+    it('should return \'.svg\' for type \'image/svg+xml\'', () => {
+        utils.getFileTypeFromUrl('image/svg+xml').should.equal('.svg')
+    })
+
+    it('should return \'.gif\' for type \'image/gif\'', () => {
+        utils.getFileTypeFromUrl('image/gif').should.equal('.gif')
+    })
+    it('should return \'.mdi\' for type \'image/vnd.ms-modi\'', () => {
+        utils.getFileTypeFromUrl('image/vnd.ms-modi').should.equal('.mdi')
+    })
+    it('should return \'.pjpeg\' for type \'image/pjpeg\'', () => {
+        utils.getFileTypeFromUrl('image/pjpeg').should.equal('.pjpeg')
+    })
+
+    it('should return \'.ico\' for type \'image/x-icon\'', () => {
+        utils.getFileTypeFromUrl('image/x-icon').should.equal('.ico')
+    })
+
+})
+
+describe.only('saveFileFromResponse', () => {
+
+    const dataFolder = 'data_test'
+    const dataFolderPath = path.join(__dirname, '..', dataFolder)
+
+    afterEach(() => {
+        utils.rmdir(dataFolderPath)
+    })
+
+    const downloadFile = url => new Promise((resolve, reject) => {
+        request(url)
+            .on('error', err => {
+                reject(err)
+            })
+            .on('response', res => {
+                utils.saveFileFromResponse(res, dataFolder)
+            })
+            .on('complete', () => {
+                resolve()
+            })
+    })
+
+    it('should download file from url', done => {
+        const url = 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png'
+        
+        downloadFile(url)
+            .then(() => {
+                let files = []
+                const googleLogo = 'googlelogo_color_272x92dp.png'
+
+                if (fs.existsSync(dataFolderPath))
+                    files = fs.readdirSync(dataFolderPath)
+
+                expect(files).to.include(googleLogo)
+                done()
+            })
+            .catch(err => {
+                done(new Error(err))
+            })
+
+    })
+
+    it('should download file if using redirection', done => {
+        const url = 'https://goo.gl/nHkNBN'
+
+        downloadFile(url)
+            .then(() => {
+                let files = []
+                const googleLogo = 'googlelogo_color_272x92dp.png'
+
+                if (fs.existsSync(dataFolderPath))
+                    files = fs.readdirSync(dataFolderPath)
+
+                expect(files).to.include(googleLogo)
+                done()
+            })
+            .catch(err => {
+                done(new Error(err))
+            })
+    })
+    
+})
+
 // createPdfFromUrl

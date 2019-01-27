@@ -37,7 +37,6 @@ const fs = require('fs')
 const path = require('path')
 
 const Html2Pdf = require('./html2pdf')
-const { defaultUrl } = require('../config')
 const logger = require('../logger')
 
 /**
@@ -46,6 +45,69 @@ const logger = require('../logger')
  * @returns {boolean} True if array is empty
  */
 const isEmptyArray = arr => Array.isArray(arr) &amp;&amp; arr.length === 0
+
+/**
+ * Create folder with given name if it isn't exist
+ * @param {string} name - Name of the folder
+ * @returns {Promise} Status of folder creation
+ */
+const mkdir = name => new Promise((resolve, reject) => {
+    if (!fs.existsSync(name))
+        fs.mkdir(name, err => {
+            if (err) reject(err)
+            resolve('success')
+        })
+    else
+        resolve('Folder already exists')
+})
+
+/**
+ * Deletes folder with all folders and files in it
+ * @param {string} dirname - Name of the folder
+ * @returns {Promise} Status of removing a directory
+ */
+const rmdir = dirname => new Promise((resolve, reject) => {
+    if (fs.existsSync(dirname)) {
+        if (!fs.lstatSync(dirname).isDirectory())
+            reject('You are trying to delete a file')
+
+        const files = fs.readdirSync(dirname, { withFileTypes: true })
+        for (const file of files) {
+            if (file.isDirectory())
+                rmdir(dirname + '/' + file.name)
+            else
+                fs.unlinkSync(dirname + '/' + file.name)
+        }
+        fs.rmdirSync(dirname)
+        resolve('success')
+    } else {
+        resolve('There is no such folder')
+    }
+})
+
+/**
+ * Create folder name from url
+ * @param {string} url - Input url
+ * @returns {string} Generated foldername
+ */
+const getNameFromUrl = url => {
+    if (url.slice(-1) === '/')
+        url = url.slice(0, -1)
+    url = url.replace('www.', '')
+    url = url.slice(url.lastIndexOf('/') + 1)
+
+    return url
+}
+
+/**
+ * Generate name for pdf file from url
+ * @param {string} url - Website url
+ * @param {string} folder - Folder, which will contain pdf file
+ * @returns {string} Full name (with path) for pdf file
+ */
+const getPdfNameFromUrl = (url, folder) => {
+    return `${folder}/${getNameFromUrl(url)}.pdf`
+}
 
 /**
  * Get file extension from from Content-Type parameter
@@ -89,176 +151,25 @@ const getFileTypeFromUrl = contentType => {
 }
 
 /**
- * Check is provided url is in valid format
- * @param {string} url - Input url
- * @returns {bool} Is url valid or not
- */
-const isValidUrl = url => {
-    const rgx = new RegExp([
-        // eslint-disable-next-line no-useless-escape
-        '^(https?:\/\/(www\.)?)?',
-        // eslint-disable-next-line no-useless-escape
-        '[a-z0-9]+([\-\.]{1}[a-z0-9]+)*',
-        // eslint-disable-next-line no-useless-escape
-        '\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$'].join(''), 'g')
-    return url.match(rgx)
-}
-
-/**
- * Add 'http' and 'www' to the beginning and slash to the end of the url if
- * nesessary
- * @param {string} url - Input url
- * @returns {string} Prettifyed url
- */
-const prettifyUrl = url => {
-    const withHttp = /^(https?:\/\/)/g
-    const withWwwAndHttp = /^(https?:\/\/(www\.))/g
-
-    // add 'http'
-    if (!url.match(withHttp))
-        url = 'http://' + url
-
-    // add 'www'
-    if (!url.match(withWwwAndHttp)) {
-        const pos = url.match(withHttp)[0].length // position to insert
-        url = url.slice(0, pos) + 'www.' + url.slice(pos)
-    }
-
-    // add slash to the end
-    if (url.substr(-1) !== '/')
-        url = url.concat('/')
-
-    return url
-}
-
-/**
- * Create folder with given name if isn't exist
- * @param {string} name - Name of the folder
- */
-const createFolder = name => {
-    if (!fs.existsSync(name)) {
-        fs.mkdir(name, err => {
-            if (err) throw err
-        })
-    }
-}
-
-/**
- * Get url given by user as CLI param or using the default one
- * @returns {string} Url to be used in the program
- */
-const getUrl = () => {
-    const args = process.argv.slice(2)
-    const command = isEmptyArray(args) ? '' : args.shift()
-    const params = isEmptyArray(args) ? [defaultUrl] : args
-    let url = ''
-
-    const cmds = {
-        URL: '-url'
-    }
-    
-    switch (command) {
-        case cmds.URL:
-            url = prettifyUrl(params[0])
-            break
-        default:
-            url = defaultUrl
-    }
-
-    if (!isValidUrl(url)) return defaultUrl
-
-    url = prettifyUrl(url)
-
-    return url
-}
-
-/**
- * Check is given url is to the menu file or webpage
- * @param {string} url - Url to be checked
- * @param {string} homeUrl - Website's homepage url
- * @returns {boolean} True if url is on the menu file or webpage
- */
-const isMenuUrl = (url, homeUrl) => {
-    if (!url) return false
-    if (!url.includes(homeUrl)) return false
-
-    const MENU = ['menyu', 'menu', 'kitchen']
-
-    for (const item of MENU) {
-        if (url.includes(item))
-            return true
-    }
-
-    return false
-}
-
-/**
- * Create webpage object
- * @param {string} url - URL of the current webpage
- * @param {string} homeUrl - URL of the website's homepage 
- * @param {Set} processed - List of processed URls
- * @returns {Object} Created object
- */
-const createWebpage = (url, homeUrl, processed) => ({
-    url,
-    homeUrl,
-    toProcess: new Set(),
-    processed
-})
-
-/**
- * Cheate child webpage objects from urls, which were detected as menu urls.
- * @param {Object} webpage - Webpage object
- * @returns {Array.&lt;Object>} - Array of child webpage objects
- */
-const createChildWebpages = webpage => {
-    const pages = []
-    for (const url of webpage.toProcess) {
-        const newPage = createWebpage(
-            url,
-            webpage.homeUrl,
-            new Set([
-                ...webpage.toProcess, ...webpage.processed
-            ]))
-        pages.push(newPage)
-    }
-
-    return pages
-}
-
-/**
- * Generate name for pdf file from url
- * @param {string} url - Website url
- * @param {string} homeUrl - Website's home url
- * @returns {string} Created pdf file name
- */
-const getPdfNameFromUrl = (url, homeUrl, folder) => {
-    if (url.substr(-1) === '/')
-        url = url.slice(0, -1)
-    // if (url.includes(homeUrl))
-    //     url = url.slice(homeUrl.length)
-    // url = url.replace(/\//g, '-')
-    url = url.slice(url.lastIndexOf('/') + 1)
-
-    return `${folder}/${url}.pdf`
-}
-
-/**
- * Saves pdf or image from url to the file
+ * Saves file using response object. If response is to pdf or image file than it
+ * saves file to the dataFolder from the response. If it's necessary - creates
+ * dataFolder
  * @param {Object} res - Response object
+ * @param {string} dataFolder - Folder where file should be saved
+ * @returns {boolean} - Status of whether response links to the file or not
  */
-const saveFileFromUrl = (res, dataFolder) => {
+const saveFileFromResponse = (res, dataFolder) => {
     const fileType = getFileTypeFromUrl(res.headers['content-type'])
     const filePath = res.request.path
 
     // Create folder for data if not exists
-    createFolder(dataFolder)
+    mkdir(dataFolder)
 
     // If url is to the file (not html) => save it
     if (fileType) {
         const filename = path.join(
             __dirname,
-            '../',
+            '..',
             dataFolder,
             filePath.slice(filePath.lastIndexOf('/') + 1)
         )
@@ -275,30 +186,33 @@ const saveFileFromUrl = (res, dataFolder) => {
  * Create pdf from url
  * @param {string} url - Url to be processed
  */
-const createPdfFromUrl = ({ url, homeUrl }, dataFolder) => {
+const createPdfFromUrl = ({ url }, dataFolder) =>
+    new Promise((response, reject) => {
 
-    const pdfName = getPdfNameFromUrl(url, homeUrl, dataFolder)
-    logger.warn(`Creation of ${pdfName} from ${url}`)
+        const pdfName = getPdfNameFromUrl(url, dataFolder)
+        logger.debug(`Creation of ${pdfName} from ${url}`)
 
-    const html2pdf = new Html2Pdf(url, pdfName)
-    html2pdf.processUrl()
-        .then(() => {
-            logger.info(`success: ${url}`)
-            html2pdf.cleanUp()
-        })
-        .catch(err => {
-            html2pdf.cleanUp()
-            logger.error(err)
-        })
-}
+        const html2pdf = new Html2Pdf(url, pdfName)
+        html2pdf.processUrl()
+            .then(async () => {
+                logger.debug(`End creating pdf: ${url}`)
+                await html2pdf.cleanUp()
+                response(`success: ${url}`)
+            })
+            .catch(err => {
+                html2pdf.cleanUp()
+                reject(err)
+            })
+    })
 
 module.exports = {
     isEmptyArray,
-    saveFileFromUrl,
-    getUrl,
-    isMenuUrl,
-    createWebpage,
-    createChildWebpages,
+    mkdir,
+    rmdir,
+    getNameFromUrl,
+    getPdfNameFromUrl,
+    getFileTypeFromUrl,
+    saveFileFromResponse,
     createPdfFromUrl,
 }
 </code></pre>
@@ -311,13 +225,13 @@ module.exports = {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-lib_urls.html">lib/urls</a></li><li><a href="module-lib_utils.html">lib/utils</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-lib_urls.html">lib/urls</a></li><li><a href="module-lib_utils.html">lib/utils</a></li><li><a href="module-lib_webpage.html">lib/webpage</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jan 22 2019 12:13:14 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Jan 27 2019 09:22:37 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

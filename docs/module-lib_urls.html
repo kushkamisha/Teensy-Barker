@@ -266,7 +266,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="urls.js.html">urls.js</a>, <a href="urls.js.html#line37">line 37</a>
+        <a href="urls.js.html">urls.js</a>, <a href="urls.js.html#line103">line 103</a>
     </li></ul></dd>
     
 
@@ -294,6 +294,114 @@
         
 <div class="param-desc">
     Valid url
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~getUrlFromCLI"><span class="type-signature">(inner) </span>getUrlFromCLI<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Get url given by user as CLI param or using the default one
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="urls.js.html">urls.js</a>, <a href="urls.js.html#line72">line 72</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Url to be used in the program
 </div>
 
 
@@ -423,7 +531,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="urls.js.html">urls.js</a>, <a href="urls.js.html#line24">line 24</a>
+        <a href="urls.js.html">urls.js</a>, <a href="urls.js.html#line61">line 61</a>
     </li></ul></dd>
     
 
@@ -479,7 +587,502 @@
     
 
     
-    <h4 class="name" id="~processUrls"><span class="type-signature">(inner) </span>processUrls<span class="signature">(urls, homeUrl, toProcess)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~isMenuUrl"><span class="type-signature">(inner) </span>isMenuUrl<span class="signature">(url, homeUrl)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Check is given url is to the menu file or webpage
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Url to be checked</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>homeUrl</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Website's homepage url</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="urls.js.html">urls.js</a>, <a href="urls.js.html#line123">line 123</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    True if url is on the menu file or webpage
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~isValidUrl"><span class="type-signature">(inner) </span>isValidUrl<span class="signature">(url)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Check is provided url is in valid format
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Input url</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="urls.js.html">urls.js</a>, <a href="urls.js.html#line18">line 18</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Is url valid or not
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~prettifyUrl"><span class="type-signature">(inner) </span>prettifyUrl<span class="signature">(url)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Add 'http', 'www' and slash to the beginning and slash to the end of the url
+if nesessary
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Input url</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="urls.js.html">urls.js</a>, <a href="urls.js.html#line35">line 35</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Prettifyed url
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~processUrls"><span class="type-signature">(inner) </span>processUrls<span class="signature">(links, homeUrl, toProcess, processed)</span><span class="type-signature"></span></h4>
     
 
     
@@ -524,7 +1127,7 @@ the toProcess set in the webpage object
 
         <tr>
             
-                <td class="name"><code>urls</code></td>
+                <td class="name"><code>links</code></td>
             
 
             <td class="type">
@@ -590,128 +1193,16 @@ the toProcess set in the webpage object
         </tr>
 
     
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="urls.js.html">urls.js</a>, <a href="urls.js.html#line58">line 58</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~processWebpage"><span class="type-signature">(inner) </span>processWebpage<span class="signature">(webpage)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Find all urls to menu file on the webpage and download them
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
 
         <tr>
             
-                <td class="name"><code>webpage</code></td>
+                <td class="name"><code>processed</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">Set.&lt;string></span>
 
 
             
@@ -721,8 +1212,7 @@ the toProcess set in the webpage object
 
             
 
-            <td class="description last">Object, which contains all necessary info about 
-current webpage</td>
+            <td class="description last">Set of urls which have been already processed</td>
         </tr>
 
     
@@ -763,7 +1253,7 @@ current webpage</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="urls.js.html">urls.js</a>, <a href="urls.js.html#line75">line 75</a>
+        <a href="urls.js.html">urls.js</a>, <a href="urls.js.html#line145">line 145</a>
     </li></ul></dd>
     
 
@@ -807,13 +1297,13 @@ current webpage</td>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-lib_urls.html">lib/urls</a></li><li><a href="module-lib_utils.html">lib/utils</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-lib_urls.html">lib/urls</a></li><li><a href="module-lib_utils.html">lib/utils</a></li><li><a href="module-lib_webpage.html">lib/webpage</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jan 22 2019 12:13:14 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Jan 27 2019 09:22:37 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
