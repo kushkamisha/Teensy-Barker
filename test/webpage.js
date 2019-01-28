@@ -5,7 +5,7 @@ const fs = require('fs')
 const chai = require('chai')
 const { getNameFromUrl, mkdir, rmdir } = require('../lib/utils')
 const expect = chai.expect
-const { 
+const {
     createWebpage,
     createChildWebpages,
     processWebpage

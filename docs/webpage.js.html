@@ -97,7 +97,7 @@ const processWebpage = (webpage, dataFolder) => new Promise((response, reject) =
         })
         .on('data', chunk => {
             // Process chunk
-            const links = urls.getUrlsFromChunk(chunk)
+            const links = urls.getUrlsFromPage(chunk)
             urls.processUrls(links, webpage)
         })
         .on('complete', () => {

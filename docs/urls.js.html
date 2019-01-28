@@ -86,7 +86,7 @@ const prettifyUrl = url => {
  * @param {Object} chunk - Chunk of the webpage
  * @returns {Object} All &lt;a> tags from the chunk
  */
-const getUrlsFromChunk = chunk => {
+const getUrlsFromPage = chunk => {
     const html = chunk.toString('utf8')
     const $ = cheerio.load(html)
 
@@ -186,7 +186,7 @@ module.exports = {
     getUrlFromCLI,
     isValidUrl,
     prettifyUrl,
-    getUrlsFromChunk,
+    getUrlsFromPage,
     isMenuUrl,
     processUrls,
 }

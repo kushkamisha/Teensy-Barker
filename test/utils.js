@@ -108,28 +108,6 @@ describe('rmdir', () => {
 
 })
 
-describe('getPdfNameFromUrl', () => {
-    
-    it('should generate correct name from \'https\'', () => {
-        const folder = '/tmp'
-        const url = 'https://github.com/'
-        utils.getPdfNameFromUrl(url, folder).should.equal('/tmp/github.com.pdf')
-    })
-
-    it('should generate correct name with \'http\'', () => {
-        const folder = '/tmp'
-        const url = 'http://github.com/'
-        utils.getPdfNameFromUrl(url, folder).should.equal('/tmp/github.com.pdf')
-    })
-
-    it('should generate correct name without slash at the end', () => {
-        const folder = '/tmp'
-        const url = 'https://github.com'
-        utils.getPdfNameFromUrl(url, folder).should.equal('/tmp/github.com.pdf')
-    })
-
-})
-
 describe('getNameFromUrl', () => {
 
     it('should generate correct name from \'https\'', () => {
@@ -230,7 +208,7 @@ describe('getFileTypeFromUrls', () => {
 
 })
 
-describe.only('saveFileFromResponse', () => {
+describe('saveFileFromResponse', () => {
 
     const dataFolder = 'data_test'
     const dataFolderPath = path.join(__dirname, '..', dataFolder)
@@ -253,7 +231,8 @@ describe.only('saveFileFromResponse', () => {
     })
 
     it('should download file from url', done => {
-        const url = 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png'
+        const url = 'https://www.google.com/images/branding/googlelogo/2x/\
+googlelogo_color_272x92dp.png'
         
         downloadFile(url)
             .then(() => {
@@ -290,7 +269,58 @@ describe.only('saveFileFromResponse', () => {
                 done(new Error(err))
             })
     })
-    
+
 })
 
-// createPdfFromUrl
+describe('createPdfFromUrl', () => {
+
+    const dataFolder = 'data_test'
+    const dataFolderPath = path.join(__dirname, '..', dataFolder)
+
+    afterEach(() => {
+        utils.rmdir(dataFolderPath)
+    })
+
+    it('should create pdf from url', async function() {
+        this.timeout(15000)
+
+        const url = 'https://www.google.com/'
+        await utils.createPdfFromUrl({ url }, dataFolder)
+
+        if (fs.existsSync(dataFolderPath)) {
+            const pdfName = 'google.com.pdf'
+            const pdfPath = path.join(dataFolderPath, pdfName)
+            const fileSize = 32589 // size of file in bytes
+
+            const files = fs.readdirSync(dataFolderPath)
+            const { size } = fs.lstatSync(pdfPath)
+
+            expect(files).to.include(pdfName)
+            expect(size).to.equal(fileSize)
+        } else {
+            throw new Error('Can\'t find folder')
+        }
+    })
+
+    it('should deal with redirection', async function() {
+        this.timeout(15000)
+
+        const url = 'https://goo.gl/JR9BD8'
+        await utils.createPdfFromUrl({ url }, dataFolder)
+
+        if (fs.existsSync(dataFolderPath)) {
+            const pdfName = 'JR9BD8.pdf'
+            const pdfPath = path.join(dataFolderPath, pdfName)
+            const fileSize = 32589 // size of file in bytes
+
+            const files = fs.readdirSync(dataFolderPath)
+            const { size } = fs.lstatSync(pdfPath)
+
+            expect(files).to.include(pdfName)
+            expect(size).to.equal(fileSize)
+        } else {
+            throw new Error('Can\'t find folder')
+        }
+    })
+
+})
