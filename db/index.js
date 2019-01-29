@@ -1,17 +1,12 @@
-const { Pool } = require('pg')
+require('dotenv').config()
+const { Client } = require('pg')
 
-const pool = new Pool()
-
-/**
- * Usage
- * 
- * const db = require('./db')
- *
- * db.query('select * from')
- */
+const client = new Client()
+// client.connect()
 
 module.exports = {
-    query: (text, params, callback) => {
-        return pool.query(text, params, callback)
-    }
+    open: () => client.connect(),
+    close: () => client.end(),
+    query: (text, params) => client.query(text, params),
 }
+

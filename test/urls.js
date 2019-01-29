@@ -142,7 +142,8 @@ describe('getUrlsFromPage', () => {
 
 })
 
-describe('getUrlFromCLI', () => {
+// Add tests for the db
+describe.only('getUrlsFromCLI', () => {
 
     let args = []
 
@@ -154,14 +155,16 @@ describe('getUrlFromCLI', () => {
         process.argv = [...args]
     })
 
-    it('should use default url when it\'s not provided', () => {
-        urls.getUrlFromCLI().should.equal('http://www.santori.com.ua/')
+    it('should use default url when it\'s not provided', async () => {
+        const links = await urls.getUrlsFromCLI()
+        links.should.eql(['http://www.santori.com.ua/'])
     })
 
-    it('should use provided url', () => {
+    it('should use provided url', async () => {
         process.argv.push('-url')
         process.argv.push('http://www.orlypark.com.ua/')
-        urls.getUrlFromCLI().should.equal('http://www.orlypark.com.ua/')
+        const links = await urls.getUrlsFromCLI()
+        links.should.eql(['http://www.orlypark.com.ua/'])
     })
 
 })
@@ -236,7 +239,7 @@ describe('isMenuUrl', () => {
     })
 })
 
-describe('processUrls', () => {
+describe('processUrlsObjects', () => {
 
     const getLinks = filename => {
         const website = path.join(__dirname, 'data', filename)
@@ -280,7 +283,7 @@ provedeniya-svadeb.html',
                 'http://vk.com/orlypark'
             ])
             
-            urls.processUrls(links, webpage)
+            urls.processUrlsObjects(links, webpage)
             
             expect(webpage.toProcess).to.eql(toProcess)
             expect(webpage.processed).to.eql(processed)
@@ -294,7 +297,7 @@ provedeniya-svadeb.html',
         const toProcess = new Set()
         const processedSite = 73
 
-        urls.processUrls(links, webpage)
+        urls.processUrlsObjects(links, webpage)
 
         expect(webpage.toProcess).to.eql(toProcess)
         expect(webpage.processed.size).to.eql(processedSite)

@@ -2,24 +2,29 @@
 'use strict'
 
 const { createWebpage, processWebpage } = require('./lib/webpage')
-const { getUrlFromCLI } = require('./lib/urls')
+const { getUrlsFromCLI } = require('./lib/urls')
 const { getNameFromUrl, mkdir } = require('./lib/utils')
-// const logger = require('./logger')
+const logger = require('./logger')
 
-console.time('program exec time')
-const url = getUrlFromCLI()
-const homeUrl = url
+// console.time('program exec time')
 
-const processed = new Set()
-const webpage = createWebpage(url, homeUrl, processed)
+getUrlsFromCLI()
+    .then(urls => {
+        for (const url of urls) {
+            const homeUrl = url
 
-const dataFolder = 'data'
-mkdir(dataFolder)
-const siteFolder = dataFolder + '/' + getNameFromUrl(homeUrl)
+            const processed = new Set()
+            const webpage = createWebpage(url, homeUrl, processed)
 
-processWebpage(webpage, siteFolder)
-    .then(() => {
-        console.timeEnd('program exec time')
-    }, err => {
-        throw err
+            const dataFolder = 'data'
+            mkdir(dataFolder)
+            const siteFolder = dataFolder + '/' + getNameFromUrl(homeUrl)
+
+            processWebpage(webpage, siteFolder)
+                .then(res => {
+                    logger.info(res)
+                }, err => {
+                    throw err
+                })
+        }
     })
