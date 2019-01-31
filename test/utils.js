@@ -324,3 +324,41 @@ describe('createPdfFromUrl', () => {
     })
 
 })
+
+describe('downloadImage', () => {
+
+    const dataFolder = 'data_test'
+    const dataFolderPath = path.join(__dirname, '..', dataFolder)
+
+    afterEach(async () => {
+        await utils.rmdir(dataFolderPath)
+    })
+
+    it('should download image from url', async () => {
+        const url = 'https://www.google.com/images/branding/googlelogo/2x/\
+googlelogo_color_272x92dp.png'
+        await utils.downloadImage(url, dataFolder)
+
+        let files = []
+        const googleImage = 'googlelogo_color_272x92dp.png'
+
+        if (fs.existsSync(dataFolderPath))
+            files = fs.readdirSync(dataFolderPath)
+
+        expect(files).to.eql([googleImage])
+    })
+
+    it('should download image from redirection url', async () => {
+        const url = 'https://goo.gl/hdVS4V'
+        await utils.downloadImage(url, dataFolder)
+
+        let files = []
+        const googleImage = 'googlelogo_color_272x92dp.png'
+
+        if (fs.existsSync(dataFolderPath))
+            files = fs.readdirSync(dataFolderPath)
+
+        expect(files).to.eql([googleImage])
+    })
+
+})

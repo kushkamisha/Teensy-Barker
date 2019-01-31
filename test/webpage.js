@@ -103,6 +103,8 @@ describe('processWebpage', () => {
             'detskoe-menyu.pdf',
             'kuhnya.pdf',
             'menu.pdf',
+            'menuItemLeft.png',
+            'menuItemRight.png',
             'sushi.pdf'
         ]
         process('http://www.orlypark.com.ua/', dirContents, done)
@@ -115,8 +117,12 @@ describe('processWebpage', () => {
             'Coctails.pdf',
             'Sets%20A3_04.jpg',
             'VineBar.pdf',
+            'bar002_521x365_8d3.jpg',
+            'barmenu_521x365_8d3.jpg',
+            'coctail001_521x365_8d3.jpg',
             'menyu-bara.pdf',
-            'menyu.pdf'
+            'menyu.pdf',
+            'wine_521x365_8d3.jpg'
         ]
         process('http://santori.com.ua/', dirContents, done)
     })

@@ -9,6 +9,7 @@ const chai = require('chai')
 const request = require('request')
 
 const urls = require('../lib/urls')
+const utils = require('../lib/utils')
 const { createWebpage } = require('../lib/webpage')
 
 const should = chai.should()
@@ -93,57 +94,53 @@ describe('prettifyUrl', () => {
 
 describe('getUrlsFromPage', () => {
 
-    it('should find urls on the page (type Buffer)', function(done) {
-        this.timeout(5000)
+    const getFileContent = filename => {
+        const website = path.join(__dirname, 'data', filename)
+        return fs.readFileSync(website)
+    }
 
-        const url = 'https://httpstatuses.com/'
-        const numOfUrls = 66
-        const chunks = []
+    it('should find urls on the page (type Buffer)', () => {
+        const numOfUrls = 28
+        const page = getFileContent('orlypark.html')
+        const links = urls.getUrlsFromPage(page)
 
-        request(url)
-            .on('error', err => {
-                done(new Error(err))
-            })
-            .on('data', chunk => {
-                chunks.push(chunk)
-            })
-            .on('complete', () => {
-                const page = Buffer.concat(chunks)
-                const links = urls.getUrlsFromPage(page)
-
-                expect(links.length).to.equal(numOfUrls)
-                done()
-            })
+        expect(links.length).to.equal(numOfUrls)
     })
 
-    it('should find urls on the page (type string)', function (done) {
-        this.timeout(5000)
+    it('should find urls on the page (type string)', () => {
+        const numOfUrls = 28
+        const page = getFileContent('orlypark.html').toString('utf8')
+        const links = urls.getUrlsFromPage(page)
 
-        const url = 'https://httpstatuses.com/'
-        const numOfUrls = 66
-        const chunks = []
-
-        request(url)
-            .on('error', err => {
-                done(new Error(err))
-            })
-            .on('data', chunk => {
-                chunks.push(chunk)
-            })
-            .on('complete', () => {
-                const page = Buffer.concat(chunks)
-                const html = page.toString('utf8')
-                const links = urls.getUrlsFromPage(page)
-
-                expect(links.length).to.equal(numOfUrls)
-                done()
-            })
+        expect(links.length).to.equal(numOfUrls)
     })
 
 })
 
-// Add tests for the db
-describe.only('getUrlsFromCLI', () => {
+describe('getImagesFromPage', () => {
+    const getFileContent = filename => {
+        const website = path.join(__dirname, 'data', filename)
+        return fs.readFileSync(website)
+    }
+
+    it('should find images on the page (type Buffer)', () => {
+        const numOfImgs = 12
+        const page = getFileContent('orlypark.html')
+        const imgs = urls.getImagesFromPage(page)
+
+        expect(imgs.length).to.equal(numOfImgs)
+    })
+
+    it('should find images on the page (type string)', () => {
+        const numOfImgs = 12
+        const page = getFileContent('orlypark.html').toString('utf8')
+        const imgs = urls.getImagesFromPage(page)
+
+        expect(imgs.length).to.equal(numOfImgs)
+    })
+})
+
+describe('getUrlsFromCLI', () => {
 
     let args = []
 
@@ -165,6 +162,18 @@ describe.only('getUrlsFromCLI', () => {
         process.argv.push('http://www.orlypark.com.ua/')
         const links = await urls.getUrlsFromCLI()
         links.should.eql(['http://www.orlypark.com.ua/'])
+    })
+
+    it('should get urls from the database', async () => {
+        process.argv.push('-db')
+        const links = await urls.getUrlsFromCLI()
+
+        links.should.eql([
+            'http://www.santori.com.ua/',
+            'http://www.kfc-ukraine.com/',
+            'http://www.orlypark.com.ua/',
+            'http://www.sushi24.ua/'
+        ])
     })
 
 })
@@ -214,6 +223,55 @@ data-ga-click="Header, sign up" href="">Sign up</a>'
         const href = urls.getHref(url, homeurl)
 
         expect(href).to.equal(hrefShouldBe) 
+    })
+
+})
+
+describe('getImgSrc', () => {
+
+    const getCheerioImg = link => {
+        const html = link.toString('utf8')
+        const $ = cheerio.load(html)
+
+        return $('img')
+    }
+
+    it('should extract src from cheerio object', () => {
+        const img = '<img alt="Google" src="https://www.google.com/image.jpg">'
+        const homeurl = 'https://www.google.com/'
+        const srcShouldBe = `${homeurl}image.jpg`
+
+        const imgObj = getCheerioImg(img)[0]
+        const src = urls.getImgSrc(imgObj, homeurl)
+
+        expect(src).to.equal(srcShouldBe)
+    })
+
+    it('should add homeurl if internal url', () => {
+        const img = '<img alt="Google" height="92" id="hplogo" src="/images/\
+branding/googlelogo/2x/googlelogo_color_272x92dp.png" srcset="/images/branding\
+/googlelogo/1x/googlelogo_color_272x92dp.png 1x, /images/branding/googlelogo/2x\
+/googlelogo_color_272x92dp.png 2x" style="padding-top:109px" width="272" \
+onload="window.lol&amp;&amp;lol()" data-atf="3">'
+        const homeurl = 'https://www.google.com/'
+        const srcShouldBe = `${homeurl}images/branding/googlelogo/2x/\
+googlelogo_color_272x92dp.png`
+
+        const imgObj = getCheerioImg(img)[0]
+        const src = urls.getImgSrc(imgObj, homeurl)
+
+        expect(src).to.equal(srcShouldBe)
+    })
+
+    it('should return empty string if src\'s length is zero', () => {
+        const img = '<img alt="Google" src="">'
+        const homeurl = 'https://www.google.com/'
+        const srcShouldBe = ''
+
+        const imgObj = getCheerioImg(img)[0]
+        const src = urls.getImgSrc(imgObj, homeurl)
+
+        expect(src).to.equal(srcShouldBe)
     })
 
 })
@@ -302,4 +360,37 @@ provedeniya-svadeb.html',
         expect(webpage.toProcess).to.eql(toProcess)
         expect(webpage.processed.size).to.eql(processedSite)
     })
+
+})
+
+describe('processImagesObjects', () => {
+
+    const dataFolder = 'data_test'
+    const dataFolderPath = path.join(__dirname, '..', dataFolder)
+
+    afterEach(() => {
+        utils.rmdir(dataFolderPath)
+    })
+
+    const getImages = filename => {
+        const website = path.join(__dirname, 'data', filename)
+        const html = fs.readFileSync(website)
+        return urls.getImagesFromPage(html)
+    }
+
+    it('should download menu images from website', async () => {
+        const images = getImages('santori.com.ua-menyu.html')
+        const homeUrl = 'http://santori.com.ua/'
+        
+        await urls.processImagesObjects(images, { homeUrl }, dataFolder)
+
+        let files = []
+        const expectedFiles = ['barmenu_521x365_8d3.jpg']
+
+        if (fs.existsSync(dataFolderPath))
+            files = fs.readdirSync(dataFolderPath)
+
+        expect(files).to.eql(expectedFiles)
+    })
+
 })
