@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 'use strict'
@@ -110,17 +111,17 @@ describe('rmdir', () => {
 
 describe('getNameFromUrl', () => {
 
-    it('should generate correct name from \'https\'', () => {
+    it(`should generate correct name from 'https'`, () => {
         const url = 'https://github.com/'
         utils.getNameFromUrl(url).should.equal('github.com')
     })
 
-    it('should generate correct name from \'http\'', () => {
+    it(`should generate correct name from 'http'`, () => {
         const url = 'http://github.com/'
         utils.getNameFromUrl(url).should.equal('github.com')
     })
 
-    it('should generate correct name from \'www\'', () => {
+    it(`should generate correct name from 'www'`, () => {
         const url = 'https://www.github.com/'
         utils.getNameFromUrl(url).should.equal('github.com')
     })
@@ -134,19 +135,19 @@ describe('getNameFromUrl', () => {
 
 describe('getPdfNameFromUrl', () => {
 
-    it('should generate correct name from \'https\'', () => {
+    it(`should generate correct name from 'https'`, () => {
         const folder = '/tmp'
         const url = 'https://github.com/'
         utils.getPdfNameFromUrl(url, folder).should.equal('/tmp/github.com.pdf')
     })
 
-    it('should generate correct name with \'http\'', () => {
+    it(`should generate correct name with 'http'`, () => {
         const folder = '/tmp'
         const url = 'http://github.com/'
         utils.getPdfNameFromUrl(url, folder).should.equal('/tmp/github.com.pdf')
     })
 
-    it('should generate correct name with \'www\'', () => {
+    it(`should generate correct name with 'www'`, () => {
         const folder = '/tmp'
         const url = 'https://www.github.com/'
         utils.getPdfNameFromUrl(url, folder).should.equal('/tmp/github.com.pdf')
@@ -162,47 +163,47 @@ describe('getPdfNameFromUrl', () => {
 
 describe('getFileTypeFromUrls', () => {
 
-    it('should return \'.pdf\' for type \'application/pdf\'', () => {
+    it(`should return '.pdf' for type 'application/pdf'`, () => {
         utils.getFileTypeFromUrl('application/pdf').should.equal('.pdf')
     })
-    it('should return \'.jpg\' for type \'image/jpeg\'', () => {
+    it(`should return '.jpg' for type 'image/jpeg'`, () => {
         utils.getFileTypeFromUrl('image/jpeg').should.equal('.jpg')
     })
-    it('should return \'.jpg\' for type \'image/x-citrix-jpeg\'', () => {
+    it(`should return '.jpg' for type 'image/x-citrix-jpeg'`, () => {
         utils.getFileTypeFromUrl('image/x-citrix-jpeg').should.equal('.jpg')
     })
 
-    it('should return \'.png\' for type \'image/png\'', () => {
+    it(`should return '.png' for type 'image/png'`, () => {
         utils.getFileTypeFromUrl('image/png').should.equal('.png')
     })
-    it('should return \'.png\' for type \'image/x-citrix-png\'', () => {
+    it(`should return '.png' for type 'image/x-citrix-png'`, () => {
         utils.getFileTypeFromUrl('image/x-citrix-png').should.equal('.png')
     })
-    it('should return \'.png\' for type \'image/x-png\'', () => {
+    it(`should return '.png' for type 'image/x-png'`, () => {
         utils.getFileTypeFromUrl('image/x-png').should.equal('.png')
     })
 
-    it('should return \'.bmp\' for type \'image/bmp\'', () => {
+    it(`should return '.bmp' for type 'image/bmp'`, () => {
         utils.getFileTypeFromUrl('image/bmp').should.equal('.bmp')
     })
-    it('should return \'.tiff\' for type \'image/tiff\'', () => {
+    it(`should return '.tiff' for type 'image/tiff'`, () => {
         utils.getFileTypeFromUrl('image/tiff').should.equal('.tiff')
     })
-    it('should return \'.svg\' for type \'image/svg+xml\'', () => {
+    it(`should return '.svg' for type 'image/svg+xml'`, () => {
         utils.getFileTypeFromUrl('image/svg+xml').should.equal('.svg')
     })
 
-    it('should return \'.gif\' for type \'image/gif\'', () => {
+    it(`should return '.gif' for type 'image/gif'`, () => {
         utils.getFileTypeFromUrl('image/gif').should.equal('.gif')
     })
-    it('should return \'.mdi\' for type \'image/vnd.ms-modi\'', () => {
+    it(`should return '.mdi' for type 'image/vnd.ms-modi'`, () => {
         utils.getFileTypeFromUrl('image/vnd.ms-modi').should.equal('.mdi')
     })
-    it('should return \'.pjpeg\' for type \'image/pjpeg\'', () => {
+    it(`should return '.pjpeg' for type 'image/pjpeg'`, () => {
         utils.getFileTypeFromUrl('image/pjpeg').should.equal('.pjpeg')
     })
 
-    it('should return \'.ico\' for type \'image/x-icon\'', () => {
+    it(`should return '.ico' for type 'image/x-icon'`, () => {
         utils.getFileTypeFromUrl('image/x-icon').should.equal('.ico')
     })
 
@@ -231,8 +232,8 @@ describe('saveFileFromResponse', () => {
     })
 
     it('should download file from url', done => {
-        const url = 'https://www.google.com/images/branding/googlelogo/2x/\
-googlelogo_color_272x92dp.png'
+        const url = 'https://www.google.com/images/branding/googlelogo/2x/' +
+                    'googlelogo_color_272x92dp.png'
         
         downloadFile(url)
             .then(() => {
@@ -298,7 +299,7 @@ describe('createPdfFromUrl', () => {
             expect(files).to.include(pdfName)
             expect(size).to.equal(fileSize)
         } else {
-            throw new Error('Can\'t find folder')
+            throw new Error(`Can't find folder`)
         }
     })
 
@@ -319,7 +320,7 @@ describe('createPdfFromUrl', () => {
             expect(files).to.include(pdfName)
             expect(size).to.equal(fileSize)
         } else {
-            throw new Error('Can\'t find folder')
+            throw new Error(`Can't find folder`)
         }
     })
 
@@ -335,8 +336,8 @@ describe('downloadImage', () => {
     })
 
     it('should download image from url', async () => {
-        const url = 'https://www.google.com/images/branding/googlelogo/2x/\
-googlelogo_color_272x92dp.png'
+        const url = 'https://www.google.com/images/branding/googlelogo/2x/' +
+                    'googlelogo_color_272x92dp.png'
         await utils.downloadImage(url, dataFolder)
 
         let files = []

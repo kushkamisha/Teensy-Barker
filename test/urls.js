@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 'use strict'
@@ -22,22 +23,22 @@ describe('isValidUrl', () => {
         expect(urls.isValidUrl(url)).to.equal(true)
     })
 
-    it('should be true without \'www\'', () => {
+    it(`should be true without 'www'`, () => {
         const url = 'https://www.github.com/'
         expect(urls.isValidUrl(url)).to.equal(true)
     })
 
-    it('should be true with \'http\'', () => {
+    it(`should be true with 'http'`, () => {
         const url = 'http://www.github.com/'
         expect(urls.isValidUrl(url)).to.equal(true)
     })
 
-    it('should be true with url without \'http\'', () => {
+    it(`should be true with url without 'http'`, () => {
         const url = 'www.github.com'
         expect(urls.isValidUrl(url)).to.equal(true)
     })
 
-    it('should be true with url without \'http\' & \'www\'', () => {
+    it(`should be true with url without 'http' & 'www'`, () => {
         const url = 'github.com'
         expect(urls.isValidUrl(url)).to.equal(true)
     })
@@ -47,12 +48,12 @@ describe('isValidUrl', () => {
         expect(urls.isValidUrl(url)).to.equal(true)
     })
 
-    it('should be false with url with incomplete \'http\' - 1', () => {
+    it(`should be false with url with incomplete 'http' - 1`, () => {
         const url = 'htt://www.github.com'
         expect(urls.isValidUrl(url)).to.equal(false)
     })
 
-    it('should be false with url with incomplete \'http\' - 2', () => {
+    it(`should be false with url with incomplete 'http' - 2`, () => {
         const url = '://www.github.com'
         expect(urls.isValidUrl(url)).to.equal(false)
     })
@@ -66,13 +67,13 @@ describe('isValidUrl', () => {
 
 describe('prettifyUrl', () => {
 
-    it('should add \'http\' to the url', () => {
+    it(`should add 'http' to the url`, () => {
         const url = 'www.github.com/'
         const prettified = 'http://www.github.com/'
         expect(urls.prettifyUrl(url)).to.equal(prettified)
     })
 
-    it('should add \'www\' to the url', () => {
+    it(`should add 'www' to the url`, () => {
         const url = 'http://github.com/'
         const prettified = 'http://www.github.com/'
         expect(urls.prettifyUrl(url)).to.equal(prettified)
@@ -84,7 +85,7 @@ describe('prettifyUrl', () => {
         expect(urls.prettifyUrl(url)).to.equal(prettified)
     })
 
-    it('should add \'http\', \'www\' and slash to the url', () => {
+    it(`should add 'http', 'www' and slash to the url`, () => {
         const url = 'github.com'
         const prettified = 'http://www.github.com/'
         expect(urls.prettifyUrl(url)).to.equal(prettified)
@@ -152,7 +153,7 @@ describe('getUrlsFromCLI', () => {
         process.argv = [...args]
     })
 
-    it('should use default url when it\'s not provided', async () => {
+    it(`should use default url when it's not provided`, async () => {
         const links = await urls.getUrlsFromCLI()
         links.should.eql(['http://www.santori.com.ua/'])
     })
@@ -188,12 +189,13 @@ describe('getHref', () => {
     }
 
     it('should extract href from cheerio object', () => {
-        const link = '<a class="link-overlay" href="https://gist.github.com/\
-philleonard0/8322dc673d868f9a0faafaba692ac943">< span class="link" > View \
-< strong > gist: 8322dc673d868f9a0faafaba692ac943</strong ></span ></a >'
+        const link = '<a class="link-overlay" href="https://gist.github.com/' +
+                     'philleonard0/8322dc673d868f9a0faafaba692ac943">< span ' +
+                     'class="link" > View < strong > gist: 8322dc673d868f9a0' + 
+                     'faafaba692ac943</strong ></span ></a >'
         const homeurl = 'https://gist.github.com/'
-        const hrefShouldBe = 'https://gist.github.com/philleonard0/\
-8322dc673d868f9a0faafaba692ac943'
+        const hrefShouldBe = 'https://gist.github.com/philleonard0/8322dc673' +
+                             'd868f9a0faafaba692ac943'
 
         const url = getCheerioUrl(link)[0]
         const href = urls.getHref(url, homeurl)
@@ -202,8 +204,8 @@ philleonard0/8322dc673d868f9a0faafaba692ac943">< span class="link" > View \
     })
 
     it('should add homeurl if internal url', () => {
-        const link = '<a class="btn btn-primary" \
-data-ga-click="Header, sign up" href="/join?source=header-gist">Sign up</a>'
+        const link = '<a class="btn btn-primary" data-ga-click="Header, sign' +
+                     ' up" href="/join?source=header-gist">Sign up</a>'
         const homeurl = 'https://gist.github.com/'
         const hrefShouldBe = 'https://gist.github.com/join?source=header-gist'
 
@@ -213,9 +215,9 @@ data-ga-click="Header, sign up" href="/join?source=header-gist">Sign up</a>'
         expect(href).to.equal(hrefShouldBe)
     })
 
-    it('should return empty string if href\'s length is zero', () => {
-        const link = '<a class="btn btn-primary" \
-data-ga-click="Header, sign up" href="">Sign up</a>'
+    it(`should return empty string if href's length is zero`, () => {
+        const link = '<a class="btn btn-primary" data-ga-click="Header, sign' +
+                     ' up" href="">Sign up</a>'
         const homeurl = 'https://gist.github.com/'
         const hrefShouldBe = ''
 
@@ -248,14 +250,16 @@ describe('getImgSrc', () => {
     })
 
     it('should add homeurl if internal url', () => {
-        const img = '<img alt="Google" height="92" id="hplogo" src="/images/\
-branding/googlelogo/2x/googlelogo_color_272x92dp.png" srcset="/images/branding\
-/googlelogo/1x/googlelogo_color_272x92dp.png 1x, /images/branding/googlelogo/2x\
-/googlelogo_color_272x92dp.png 2x" style="padding-top:109px" width="272" \
-onload="window.lol&amp;&amp;lol()" data-atf="3">'
+        const img = '<img alt="Google" height="92" id="hplogo" src="/images/' +
+                    'branding/googlelogo/2x/googlelogo_color_272x92dp.png" ' +
+                    'srcset="/images/branding/googlelogo/1x/googlelogo_color' +
+                    '_272x92dp.png 1x, /images/branding/googlelogo/2x/google' + 
+                    'logo_color_272x92dp.png 2x" style="padding-top:109px" ' +
+                    'width="272" onload="window.lol&amp;&amp;lol()" ' +
+                    'data-atf="3">'
         const homeurl = 'https://www.google.com/'
-        const srcShouldBe = `${homeurl}images/branding/googlelogo/2x/\
-googlelogo_color_272x92dp.png`
+        const srcShouldBe = homeurl + 'images/branding/googlelogo/2x/' +
+                                      'googlelogo_color_272x92dp.png'
 
         const imgObj = getCheerioImg(img)[0]
         const src = urls.getImgSrc(imgObj, homeurl)
@@ -263,7 +267,7 @@ googlelogo_color_272x92dp.png`
         expect(src).to.equal(srcShouldBe)
     })
 
-    it('should return empty string if src\'s length is zero', () => {
+    it(`should return empty string if src's length is zero`, () => {
         const img = '<img alt="Google" src="">'
         const homeurl = 'https://www.google.com/'
         const srcShouldBe = ''
@@ -334,8 +338,8 @@ describe('processUrlsObjects', () => {
                 'http://orlypark.com.ua/',
                 'http://orlypark.com.ua/#',
                 'http://orlypark.com.ua/stocks/biznes-vremya-v-orly-park.html',
-                'http://orlypark.com.ua/stocks/spetsialnoe-predlozhenie-dlya-\
-provedeniya-svadeb.html',
+                'http://orlypark.com.ua/stocks/spetsialnoe-predlozhenie-dlya-' +
+                    'provedeniya-svadeb.html',
                 'https://www.facebook.com/orlypark',
                 'https://twitter.com/orly_park',
                 'http://vk.com/orlypark'
