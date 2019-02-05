@@ -8,5 +8,8 @@ const client = new Client(config.db)
 module.exports = {
     open: () => client.connect(),
     close: () => client.end(),
-    query: (text, params) => client.query(text, params),
+    query: (text, params) => 
+        client.query(text, params)
+            .then(res => ({ err: null, res }))
+            .catch(err => ({ err, res: null })),
 }
