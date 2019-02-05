@@ -1,12 +1,12 @@
-require('dotenv').config()
-const { Client } = require('pg')
+'use strict'
 
-const client = new Client()
-// client.connect()
+const { Client } = require('pg')
+const config = require('../config')
+
+const client = new Client(config.db)
 
 module.exports = {
     open: () => client.connect(),
     close: () => client.end(),
     query: (text, params) => client.query(text, params),
 }
-

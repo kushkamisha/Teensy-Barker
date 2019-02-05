@@ -214,8 +214,8 @@ describe('saveFileFromResponse', () => {
     const dataFolder = 'data_test'
     const dataFolderPath = path.join(__dirname, '..', dataFolder)
 
-    afterEach(() => {
-        utils.rmdir(dataFolderPath)
+    afterEach(async () => {
+        await utils.rmdir(dataFolderPath)
     })
 
     const downloadFile = url => new Promise((resolve, reject) => {
@@ -231,44 +231,33 @@ describe('saveFileFromResponse', () => {
             })
     })
 
-    it('should download file from url', done => {
+    it('should download file from url', async () => {
         const url = 'https://www.google.com/images/branding/googlelogo/2x/' +
                     'googlelogo_color_272x92dp.png'
         
-        downloadFile(url)
-            .then(() => {
-                let files = []
-                const googleLogo = 'googlelogo_color_272x92dp.png'
+        await downloadFile(url)
 
-                if (fs.existsSync(dataFolderPath))
-                    files = fs.readdirSync(dataFolderPath)
+        let files = []
+        const googleLogo = 'googlelogo_color_272x92dp.png'
 
-                expect(files).to.include(googleLogo)
-                done()
-            })
-            .catch(err => {
-                done(new Error(err))
-            })
+        if (fs.existsSync(dataFolderPath))
+            files = fs.readdirSync(dataFolderPath)
 
+        expect(files).to.include(googleLogo)
     })
 
-    it('should download file if using redirection', done => {
+    it('should download file if using redirection', async () => {
         const url = 'https://goo.gl/nHkNBN'
 
-        downloadFile(url)
-            .then(() => {
-                let files = []
-                const googleLogo = 'googlelogo_color_272x92dp.png'
+        await downloadFile(url)
 
-                if (fs.existsSync(dataFolderPath))
-                    files = fs.readdirSync(dataFolderPath)
+        let files = []
+        const googleLogo = 'googlelogo_color_272x92dp.png'
 
-                expect(files).to.include(googleLogo)
-                done()
-            })
-            .catch(err => {
-                done(new Error(err))
-            })
+        if (fs.existsSync(dataFolderPath))
+            files = fs.readdirSync(dataFolderPath)
+
+        expect(files).to.include(googleLogo)
     })
 
 })

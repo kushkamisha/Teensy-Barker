@@ -6,11 +6,11 @@
 
 const { createLogger, format, transports } = require('winston')
 require('winston-daily-rotate-file')
-const { nodeEnv } = require('./config')
+const config = require('./config')
 const fs = require('fs')
 const path = require('path')
 
-const env = nodeEnv || 'development'
+const env = config.env || 'development'
 const logDir = path.join(__dirname, 'log')
 
 // Create the log directory if it does not exist
