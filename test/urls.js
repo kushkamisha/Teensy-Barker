@@ -165,7 +165,7 @@ describe('getUrlsFromCLI', () => {
         links.should.eql(['http://www.orlypark.com.ua/'])
     })
 
-    it('should get urls from the database', async () => {
+    it.skip('should get urls from the database', async () => {
         process.argv.push('-db')
         const links = await urls.getUrlsFromCLI()
 

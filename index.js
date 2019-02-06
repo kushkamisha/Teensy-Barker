@@ -24,7 +24,7 @@ getUrlsFromCLI()
                 .then(res => {
                     logger.info(res)
                 }, err => {
-                    throw err
+                    logger.error(err)
                 })
         }
     })
