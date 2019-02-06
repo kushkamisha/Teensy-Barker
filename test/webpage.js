@@ -67,7 +67,7 @@ describe('createChildWebpages', () => {
 
 describe('processWebpage', () => {
 
-    const dataFolder = 'data_test'
+    const dataFolder = 'temp'
 
     before(async () => {
         await mkdir(dataFolder)

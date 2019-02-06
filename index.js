@@ -28,3 +28,6 @@ getUrlsFromCLI()
                 })
         }
     })
+    .catch(err => {
+        logger.error(err)
+    })

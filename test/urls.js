@@ -68,26 +68,20 @@ describe('isValidUrl', () => {
 describe('prettifyUrl', () => {
 
     it(`should add 'http' to the url`, () => {
-        const url = 'www.github.com/'
-        const prettified = 'http://www.github.com/'
-        expect(urls.prettifyUrl(url)).to.equal(prettified)
-    })
-
-    it(`should add 'www' to the url`, () => {
-        const url = 'http://github.com/'
-        const prettified = 'http://www.github.com/'
+        const url = 'github.com/'
+        const prettified = 'http://github.com/'
         expect(urls.prettifyUrl(url)).to.equal(prettified)
     })
 
     it('should add slash to the url', () => {
-        const url = 'http://www.github.com'
-        const prettified = 'http://www.github.com/'
+        const url = 'http://github.com'
+        const prettified = 'http://github.com/'
         expect(urls.prettifyUrl(url)).to.equal(prettified)
     })
 
-    it(`should add 'http', 'www' and slash to the url`, () => {
+    it(`should add 'http' and slash to the url`, () => {
         const url = 'github.com'
-        const prettified = 'http://www.github.com/'
+        const prettified = 'http://github.com/'
         expect(urls.prettifyUrl(url)).to.equal(prettified)
     })
 
@@ -301,7 +295,7 @@ describe('isMenuUrl', () => {
     })
 })
 
-describe('processUrlsObjects', () => {
+describe('processUrlObjects', () => {
 
     const getLinks = filename => {
         const website = path.join(__dirname, 'data', filename)
@@ -345,7 +339,7 @@ describe('processUrlsObjects', () => {
                 'http://vk.com/orlypark'
             ])
             
-            urls.processUrlsObjects(links, webpage)
+            urls.processUrlObjects(links, webpage)
             
             expect(webpage.toProcess).to.eql(toProcess)
             expect(webpage.processed).to.eql(processed)
@@ -359,7 +353,7 @@ describe('processUrlsObjects', () => {
         const toProcess = new Set()
         const processedSite = 73
 
-        urls.processUrlsObjects(links, webpage)
+        urls.processUrlObjects(links, webpage)
 
         expect(webpage.toProcess).to.eql(toProcess)
         expect(webpage.processed.size).to.eql(processedSite)
@@ -369,7 +363,7 @@ describe('processUrlsObjects', () => {
 
 describe('processImagesObjects', () => {
 
-    const dataFolder = 'data_test'
+    const dataFolder = 'temp'
     const dataFolderPath = path.join(__dirname, '..', dataFolder)
 
     afterEach(() => {

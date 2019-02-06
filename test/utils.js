@@ -109,6 +109,8 @@ describe('rmdir', () => {
 
 })
 
+// getHomeUrlName
+
 describe('getNameFromUrl', () => {
 
     it(`should generate correct name from 'https'`, () => {
@@ -211,7 +213,7 @@ describe('getFileTypeFromUrls', () => {
 
 describe('saveFileFromResponse', () => {
 
-    const dataFolder = 'data_test'
+    const dataFolder = 'temp'
     const dataFolderPath = path.join(__dirname, '..', dataFolder)
 
     afterEach(async () => {
@@ -264,7 +266,7 @@ describe('saveFileFromResponse', () => {
 
 describe('createPdfFromUrl', () => {
 
-    const dataFolder = 'data_test'
+    const dataFolder = 'temp'
     const dataFolderPath = path.join(__dirname, '..', dataFolder)
 
     afterEach(() => {
@@ -315,9 +317,13 @@ describe('createPdfFromUrl', () => {
 
 })
 
+// urlToUri
+// getUrlScheme
+
+// Often error that ..../tmp/googlelogo_color_272x92dp.png not fould
 describe('downloadImage', () => {
 
-    const dataFolder = 'data_test'
+    const dataFolder = 'temp'
     const dataFolderPath = path.join(__dirname, '..', dataFolder)
 
     afterEach(async () => {
