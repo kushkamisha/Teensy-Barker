@@ -65,7 +65,7 @@ const getHref = (url, homepage) => {
  * @param {string} homeUrl - Website's homepage url
  * @param {Set.&lt;string>} toProcess - Set of urls to be processed
  */
-const processUrlsObjects = (urls, { homeUrl, toProcess }) => {
+const processUrlObjects = (urls, { homeUrl, toProcess }) => {
     for (const i in urls) {
         const href = getHref(urls[i], homeUrl)
         if (isMenuUrl(href, homeUrl))
@@ -91,7 +91,7 @@ const processWebsite = website => {
             const html = data.toString('utf8')
             const $ = cheerio.load(html)
             const urls = $('a')
-            processUrlsObjects(urls, website)
+            processUrlObjects(urls, website)
         })
         .on('complete', () => {
             console.log(website)

@@ -209,7 +209,7 @@ const isMenuUrl = (url, homeUrl) => {
  * @param {Set.&lt;string>} toProcess - Set of urls to be processed
  * @param {Set.&lt;string>} processed - Set of urls which have been already processed
  */
-const processUrlsObjects = (links, { homeUrl, toProcess, processed }) => {
+const processUrlObjects = (links, { homeUrl, toProcess, processed }) => {
     for (const i in links) {
         const href = getHref(links[i], homeUrl)
         if (!href) continue
@@ -253,7 +253,7 @@ module.exports = {
     getHref,
     getImgSrc,
     isMenuUrl,
-    processUrlsObjects,
+    processUrlObjects,
     processImagesObjects,
 }
 </code></pre>

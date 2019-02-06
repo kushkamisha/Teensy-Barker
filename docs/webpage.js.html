@@ -104,7 +104,7 @@ const processWebpage = (webpage, dataFolder) => new Promise((response, reject) =
             const page = Buffer.concat(chunks)
             const links = urls.getUrlsFromPage(page)
             const imgs = urls.getImagesFromPage(page)
-            urls.processUrlsObjects(links, webpage)
+            urls.processUrlObjects(links, webpage)
             urls.processImagesObjects(imgs, webpage, dataFolder)
 
             // Response if there is no need to create child webpages
