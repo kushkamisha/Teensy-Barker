@@ -1,4 +1,4 @@
-![Project version](https://img.shields.io/badge/version-0.6.2-blue.svg)
+![Project version](https://img.shields.io/badge/version-0.6.3-blue.svg)
 ![npm version](https://img.shields.io/badge/npm-v6.7.0-brightgreen.svg)
 ![Build status](https://travis-ci.com/kushkamisha/Teensy-Barker.svg?token=eU2xeax7Tp5xNpzo1KrV&branch=master)
 ![Build status](https://ci.appveyor.com/api/projects/status/jil2vprufxxve9jn?svg=true)

@@ -361,6 +361,8 @@ describe('processUrlObjects', () => {
 
 })
 
+// sometimes fails (maybe connected with mkdir, cause it's promise, but I'm
+// working with it as it's not)
 describe('processImagesObjects', () => {
 
     const dataFolder = 'temp'
