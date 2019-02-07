@@ -110,9 +110,21 @@ describe('rmdir', () => {
 
 })
 
-// getHomeUrlName
+describe('getHomeUrlName', () => {
 
-// add extensions
+    it(`should get website name from it's home url`, () => {
+        const url = 'https://www.google.com'
+        utils.getHomeUrlName(url).should.equal('google.com')
+    })
+
+    it(`should get website name from url of any page of it`, () => {
+        const url = 'https://github.com/marketplace/zenhub/plan/MDIyOk1hcmtl' +
+            'dHBsYWNlTGlzdGluZ1BsYW42Mg==#pricing-and-setup'
+        utils.getHomeUrlName(url).should.equal('github.com')
+    })
+
+})
+
 describe('getNameFromUrl', () => {
 
     it(`should generate correct name from 'https'`, () => {
@@ -133,6 +145,11 @@ describe('getNameFromUrl', () => {
     it('should generate correct name without slash at the end', () => {
         const url = 'https://github.com'
         utils.getNameFromUrl(url).should.equal('github.com')
+    })
+
+    it('should remove extension of original files', () => {
+        const url = 'https://www.google.com/index.html'
+        utils.getNameFromUrl(url).should.equal('index')
     })
 
 })
@@ -325,8 +342,71 @@ describe('createPdfFromUrl', () => {
 
 })
 
-// urlToUri
-// getUrlScheme
+describe('urlToEncodedUri', () => {
+
+    it('should replace non-english chars in the url', () => {
+        const url = 'http://кто.рф'
+        utils.urlToEncodedUri(url)
+            .should.equal('http://%D0%BA%D1%82%D0%BE.%D1%80%D1%84')
+    })
+
+    it('should replace non-english chars in the url', () => {
+        const url = 'http://кто.рф/ad.php?v=ch#reg'
+        utils.urlToEncodedUri(url).should
+            .equal('http://%D0%BA%D1%82%D0%BE.%D1%80%D1%84/ad.php?v=ch#reg')
+    })
+
+    it('should replace all non-english chars in the entire url', () => {
+        const url = 'http://школьнаяматематика.рф/upload/Концепция развития' +
+            ' математического образования в РФ.pdf'
+        const encoded = 'http://%D1%88%D0%BA%D0%BE%D0%BB%D1%8C%D0%BD%D0%B0%D1' +
+            '%8F%D0%BC%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0.' +
+            '%D1%80%D1%84/upload/%D0%9A%D0%BE%D0%BD%D1%86%D0%B5%D0%BF%D1%86%' +
+            'D0%B8%D1%8F%20%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D1%8F%' +
+            '20%D0%BC%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%B5%' +
+            'D1%81%D0%BA%D0%BE%D0%B3%D0%BE%20%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%' +
+            'D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F%20%D0%B2%20%D0%A0%D0%A4.pdf'
+        utils.urlToEncodedUri(url)
+            .should.equal(encoded)
+    })
+
+    it('should left "as if" url with only english letters', () => {
+        const url = 'https://gist.github.com/zenwalker/b1c83611090bb446e44b7a' +
+            '2d0bcd5729'
+        utils.urlToEncodedUri(url).should.equal(url)
+    })
+
+})
+
+describe('getUrlScheme', () => {
+
+    it('should get "http" scheme (homepage url)', () => {
+        const url = 'http://fossilinsects.myspecies.info'
+        utils.getUrlScheme(url).should.equal('http')
+    })
+
+    it('should get "http" scheme (child page url)', () => {
+        const url = 'http://fossilinsects.myspecies.info/node/5#membership'
+        utils.getUrlScheme(url).should.equal('http')
+    })
+
+    it('should get "https" scheme (homepage url)', () => {
+        const url = 'https://www.google.com'
+        utils.getUrlScheme(url).should.equal('https')
+    })
+
+    it('should get "https" scheme (child page url)', () => {
+        const url = 'https://developer.mozilla.org/en-US/docs/Web/JavaScript' +
+            '/Reference/Global_Objects/encodeURIComponent'
+        utils.getUrlScheme(url).should.equal('https')
+    })
+
+    it('should use default "http" if url has no scheme', () => {
+        const url = 'google.com'
+        utils.getUrlScheme(url).should.equal('http')
+    })
+
+})
 
 describe('downloadImage', () => {
 
