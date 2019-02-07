@@ -9,15 +9,17 @@ const logger = require('./logger')
 // console.time('program exec time')
 
 getUrlsFromCLI()
-    .then(urls => {
+    .then(async urls => {
+
+        const dataFolder = 'data'
+        await mkdir(dataFolder)
+
         for (const url of urls) {
             const homeUrl = url
 
             const processed = new Set()
             const webpage = createWebpage(url, homeUrl, processed)
 
-            const dataFolder = 'data'
-            mkdir(dataFolder)
             const siteFolder = dataFolder + '/' + getNameFromUrl(homeUrl)
 
             processWebpage(webpage, siteFolder)

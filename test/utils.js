@@ -59,10 +59,11 @@ describe('mkdir', () => {
 describe('rmdir', () => {
 
     const now = Date.now()
-    const name = `${__dirname}/${now}`
+    const name = `${__dirname}/temp-${now}`
 
     beforeEach(() => {
-        fs.mkdirSync(name)
+        if (!fs.existsSync(name))
+            fs.mkdirSync(name)
     })
 
     it('should fails if trying to delete a file', done => {
@@ -111,6 +112,7 @@ describe('rmdir', () => {
 
 // getHomeUrlName
 
+// add extensions
 describe('getNameFromUrl', () => {
 
     it(`should generate correct name from 'https'`, () => {
@@ -213,8 +215,13 @@ describe('getFileTypeFromUrls', () => {
 
 describe('saveFileFromResponse', () => {
 
-    const dataFolder = 'temp'
+    const now = Date.now()
+    const dataFolder = `temp-${now}`
     const dataFolderPath = path.join(__dirname, '..', dataFolder)
+
+    beforeEach(async () => {
+        await utils.mkdir(dataFolderPath)
+    })
 
     afterEach(async () => {
         await utils.rmdir(dataFolderPath)
@@ -266,11 +273,12 @@ describe('saveFileFromResponse', () => {
 
 describe('createPdfFromUrl', () => {
 
-    const dataFolder = 'temp'
+    const now = Date.now()
+    const dataFolder = `temp-${now}`
     const dataFolderPath = path.join(__dirname, '..', dataFolder)
 
-    afterEach(() => {
-        utils.rmdir(dataFolderPath)
+    afterEach(async () => {
+        await utils.rmdir(dataFolderPath)
     })
 
     it('should create pdf from url', async function() {
@@ -320,11 +328,15 @@ describe('createPdfFromUrl', () => {
 // urlToUri
 // getUrlScheme
 
-// Often error that ..../tmp/googlelogo_color_272x92dp.png not fould
 describe('downloadImage', () => {
 
-    const dataFolder = 'temp'
+    const now = Date.now()
+    const dataFolder = `temp-${now}`
     const dataFolderPath = path.join(__dirname, '..', dataFolder)
+
+    beforeEach(async () => {
+        await utils.mkdir(dataFolderPath)
+    })
 
     afterEach(async () => {
         await utils.rmdir(dataFolderPath)

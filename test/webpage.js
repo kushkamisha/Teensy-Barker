@@ -2,7 +2,9 @@
 'use strict'
 
 const fs = require('fs')
+const path = require('path')
 const chai = require('chai')
+
 const { getNameFromUrl, mkdir, rmdir } = require('../lib/utils')
 const expect = chai.expect
 const {
@@ -67,21 +69,23 @@ describe('createChildWebpages', () => {
 
 describe('processWebpage', () => {
 
-    const dataFolder = 'temp'
+    const now = Date.now()
+    const dataFolder = `temp-${now}`
+    const dataFolderPath = path.join(__dirname, '..', dataFolder)
 
     before(async () => {
-        await mkdir(dataFolder)
+        await mkdir(dataFolderPath)
     })
 
-    after(() => {
-        rmdir(__dirname + '/../' + dataFolder)
+    after(async () => {
+        await rmdir(dataFolderPath)
     })
 
     const process = (url, dirContents, done) => {
 
         const homeUrl = url
         const webpage = createWebpage(url, homeUrl, new Set())
-        const siteFolder = dataFolder + '/' + getNameFromUrl(homeUrl)
+        const siteFolder = path.join(dataFolder, getNameFromUrl(homeUrl))
 
         processWebpage(webpage, siteFolder)
             .then(() => {
@@ -95,7 +99,7 @@ describe('processWebpage', () => {
             .finally(done)
     }
 
-    it('should process http://www.orlypark.com.ua/ correctly', function (done) {
+    it('should process http://orlypark.com.ua/ correct', function (done) {
         this.timeout(15000)
         const dirContents = [
             'bar.pdf',
@@ -107,10 +111,10 @@ describe('processWebpage', () => {
             'menuItemRight.png',
             'sushi.pdf'
         ]
-        process('http://www.orlypark.com.ua/', dirContents, done)
+        process('http://orlypark.com.ua/', dirContents, done)
     })
 
-    it('should process http://santori.com.ua/ correctly', function (done) {
+    it('should process http://santori.com.ua/ correct', function (done) {
         this.timeout(15000)
         const dirContents = [
             'Bar.pdf',

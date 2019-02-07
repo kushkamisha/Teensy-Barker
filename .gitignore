@@ -3,8 +3,8 @@
 
 # Project data
 data
-temp
-test/data
+temp-*
+
 node_modules
 log
 urls.txt

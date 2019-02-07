@@ -361,15 +361,18 @@ describe('processUrlObjects', () => {
 
 })
 
-// sometimes fails (maybe connected with mkdir, cause it's promise, but I'm
-// working with it as it's not)
-describe('processImagesObjects', () => {
+describe('processImageObjects', () => {
 
-    const dataFolder = 'temp'
+    const now = Date.now()
+    const dataFolder = `temp-${now}`
     const dataFolderPath = path.join(__dirname, '..', dataFolder)
 
-    afterEach(() => {
-        utils.rmdir(dataFolderPath)
+    beforeEach(async () => {
+        await utils.mkdir(dataFolderPath)
+    })
+
+    afterEach(async () => {
+        await utils.rmdir(dataFolderPath)
     })
 
     const getImages = filename => {
@@ -382,7 +385,7 @@ describe('processImagesObjects', () => {
         const images = getImages('santori.com.ua-menyu.html')
         const homeUrl = 'http://santori.com.ua/'
         
-        await urls.processImagesObjects(images, { homeUrl }, dataFolder)
+        await urls.processImageObjects(images, { homeUrl }, dataFolder)
 
         let files = []
         const expectedFiles = ['barmenu_521x365_8d3.jpg']

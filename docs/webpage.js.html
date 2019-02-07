@@ -105,7 +105,7 @@ const processWebpage = (webpage, dataFolder) => new Promise((response, reject) =
             const links = urls.getUrlsFromPage(page)
             const imgs = urls.getImagesFromPage(page)
             urls.processUrlObjects(links, webpage)
-            urls.processImagesObjects(imgs, webpage, dataFolder)
+            urls.processImageObjects(imgs, webpage, dataFolder)
 
             // Response if there is no need to create child webpages
             if (!creatingPdf &amp;&amp; !webpage.toProcess.size)
