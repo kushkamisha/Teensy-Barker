@@ -1,6 +1,6 @@
 {
   "name": "teensy-barker",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "description": "Coolector of menu files from restauraunt's websites.",
   "main": "index.js",
   "scripts": {
