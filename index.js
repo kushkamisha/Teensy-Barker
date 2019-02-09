@@ -5,8 +5,7 @@ const { createWebpage, processWebpage } = require('./lib/webpage')
 const { getUrlsFromCLI } = require('./lib/urls')
 const { getNameFromUrl, mkdir } = require('./lib/utils')
 const logger = require('./logger')
-
-// console.time('program exec time')
+const emitter = require('./lib/emitter')
 
 getUrlsFromCLI()
     .then(async urls => {
@@ -22,12 +21,13 @@ getUrlsFromCLI()
 
             const siteFolder = dataFolder + '/' + getNameFromUrl(homeUrl)
 
-            processWebpage(webpage, siteFolder)
-                .then(res => {
-                    logger.info(res)
-                }, err => {
-                    logger.error(err)
-                })
+            if (emitter.getProcessesNum() < emitter.getLimit())
+                processWebpage(webpage, siteFolder)
+                    .then(res => {
+                        logger.info(res)
+                    }, err => {
+                        logger.error(err)
+                    })
         }
     })
     .catch(err => {
